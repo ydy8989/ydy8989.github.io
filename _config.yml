@@ -14,7 +14,7 @@ author: Doyeon Yoon
 # *** If you're not sure what this mean, then leave this section as it is. Only modify the url and baseurl if you know what you're doing!***
 
 # url is the the website domain URL without a trailing slash
-url: "https://ydy8989.github.io"
+url: "https://ydy8989.github.io/"
 
 # baseurl should be an empty string
 baseurl: ""
@@ -164,8 +164,8 @@ link-tags: true
 
 # Exclude these files from production site
 exclude:
-  - CHANGELOG.md
-  - CNAME
+#  - CHANGELOG.md
+#  - CNAME
   - Dockerfile
   - Gemfile
   - Gemfile.lock
