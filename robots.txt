@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ydy8989.github.io/sitemap.xml

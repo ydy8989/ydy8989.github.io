@@ -1,0 +1,16 @@
+---
+layout: base
+---
+
+<div class="intro-header"></div>
+
+<div role="main" class="container-md">
+<!--  <a href="/search/"><img src="/assets/img/search.png"></a>-->
+  {{ content }}
+</div>
+
+</body>
+{% if site.disqus_short_name %}
+<script id="dsq-count-scr" src="//{{ site.disqus_short_name }}.disqus.com/count.js" async></script>
+{% endif %}
+</html>
