@@ -133,6 +133,7 @@ date_format: "%B %-d, %Y"
 # Output options (more information on Jekyll's site)
 timezone: "Asia/Seoul"
 markdown: kramdown
+asset_url: /assets
 highlighter: rouge
 permalink: /:year-:month-:day-:title/
 paginate: 5
