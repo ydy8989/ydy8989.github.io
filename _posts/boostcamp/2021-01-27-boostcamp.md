@@ -1,13 +1,127 @@
 ---
 layout: post
-title: Day3 딥러닝 학습방법 이해하기 
-subtitle: about MLP
+title: (Week2_Day3) Pandas / 딥러닝 학습방법 이해하기 
+subtitle: Pandas와 MLP basic
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [star, follow]
 categories: [BOOSTCAMP]
 tags: [boostcamp]
 comments: true
 ---
+
+**pan**el **da**ta 의 줄임말인 **pandas**는 파이썬의 데이터 처리의 사실상의 표준인 라이브러리입니다.
+
+**pandas**는 파이썬에서 일종의 엑셀과 같은 역할을 하여 데이터를 전처리하거나 통계 처리시 많이 활용하는 피봇 테이블 등의 기능을 사용할 때 쓸 수 있습니다. pandas 역시 numpy를 기반으로 하여 개발되어 있으며, R의 데이터 처리 기법을 참고하여 많은 함수가 구성되어 있거 기존 R 사용자들도 쉽게 해당 모듈을 사용할 수 있도록 지원하고 있습니다.
+
+<br>
+
+# 0. Pandas overview
+
+- 구조화된 데이터의 처리를 지원하는 파이썬 라이브러리
+- panel data의 약자
+- 고성능 array 계산 라이브러리인 numpy와 통합하여, 강력한 '스프레드시트' 처리 기능을 제공한다. 
+- 인덱싱, 연산용 함수, 전처리 함수 등을 제공함
+- 데이터 처리 및 통계 분석을 위해 사용
+
+<br>
+
+## 0.1. 데이터 로딩
+- `pd.read_csv`를 이용해 데이터를 로드할 수 있다.
+  - url 형식으로 웹의 데이터를 로드할 수 있다. 
+  - `sep`옵션 : txt 형식의 데이터를 나눠주는 split 요소를 설정함으로써 데이터를 분리시켜줌
+    - 몰랐던 옵션 : `\s+` - 불규칙하게 연속된 single space를 분리해줌. 
+
+<br>
+
+# 1. Series
+- DataFrame : Data Table 전체를 포함하는 object의 이름
+- Series : 데이터프레임 중 하나의 column에 해당하는 데이터의 모음 object를 말한다. 
+- column vector를 표현하는 object
+- List to series
+
+  - ```python
+    list = [1,2,3,4,5]
+    example_series = Series(data = list)
+    ```
+
+- Dict to series
+
+  - ```python
+    dict = {'a':1, 'b':2, 'c':3, 'd':4}
+    example_series = Series(data = dict)
+    ```
+- **[예제 코드](https://github.com/BoostcampAITech/lecture-note-python-basics-for-ai/blob/main/codes/pandas/%231/3_pandas_series.ipynb)**
+- 인덱스에 접근할 때는 리스트의 인덱스 및 array의 인덱싱과 비슷하다. 
+
+
+<br>
+# 2. DataFrame
+
+- 메모리 구조는 index와 columns를 통해 접근하는 방식으로 이뤄져있다. 
+- 보통은 `pd.DataFrame`보다는 `pd.read_csv`를 통해 한번에 데이터 프레임을 로드한다. 
+<br>
+
+## 2.1. DataFrame 생성
+
+- ```python
+  # Example from - https://chrisalbon.com/python/pandas_map_values_to_values.html
+  raw_data = {
+      "first_name": ["Jason", "Molly", "Tina", "Jake", "Amy"],
+      "last_name": ["Miller", "Jacobson", "Ali", "Milner", "Cooze"],
+      "age": [42, 52, 36, 24, 73],
+      "city": ["San Francisco", "Baltimore", "Miami", "Douglas", "Boston"],
+  }
+  df = pd.DataFrame(raw_data, columns=["first_name", "last_name", "age", "city"])
+  df
+  ```
+
+- ![image-20210127173704440](https://user-images.githubusercontent.com/38639633/105992261-3c94dc80-60e8-11eb-88f6-297ca047145e.png)
+
+- 데이터프레임이 갖고 있지 않은 index 및 column명을 호출해주면 그 값들이 `NaN`으로 채워진다.
+ 
+<br>
+
+## 2.2. DataFrame indexing
+
+- 해당 값에 접근하는 방식은 두 가지가 있다.
+  - `df.loc['인덱스명']` : location이라는 의미로, 인덱스의 위치 즉 몇 번째인지를 의미하는 것이 아니라, 인덱스의 이름 그 자체를 찾는다.
+  - `df.iloc[인덱스 넘버]` : index location이라는 의미. 인덱스의 이름과 상관없이 몇 번째인지를 찾는다. 
+- **[예제 코드](https://github.com/BoostcampAITech/lecture-note-python-basics-for-ai/blob/main/codes/pandas/%231/4_pandas_dataframe.ipynb)**
+
+<br>
+
+## 2.3. DataFrame handling
+
+- 새 Series에 boolean을 통한 데이터 값을 새로 할당할 수 있다.
+  ```python
+  df.debt=df.age > 40
+  ```
+  > df.age의 값이 40 초과면 True, 아니면 False를 df.debt에 새로 입력
+
+- `T` : 데이터프레임 transpose
+- `to_csv` : csv로 저장
+- `df.values` : array 형태로 데이터프레임의 값들을 출력한다.
+
+<br>
+
+# 3. selection and drop
+
+- [예제 코드](https://github.com/BoostcampAITech/lecture-note-python-basics-for-ai/blob/main/codes/pandas/%231/5_data_selection.ipynb)
+- 1개의 컬럼을 추출 : **`df.col1` or `df['col1']`**
+  - 이 경우 데이터의 반환 형태가 **<u>Series</u>**
+- 여러개의 컬럼 추출 : **`df[['col1','col2]]`**
+  - 이 경우 데이터의 반환 형태가 **<u>DataFrame</u>**
+- **selection :** 
+  - `df[조건1]` : 조건1의 부울이 True인 조건에 해당하는 df의 값들이 출력된다. 
+- basic, loc, iloc selection
+  ```python
+  df[["name", "street"]][:2]
+  df.loc[[211829, 320563], ["name", "street"]]
+  df.iloc[:10, :3]
+  ```
+<br>
+
+# 4. Decomposition of NN's formula
 
 이전 강의에서 배웠던 선형모델은 단순한 데이터를 해석할 때는 유용하지만 분류문제나 좀 더 복잡한 패턴의 문제를 풀 때는 예측성공률이 높지 않습니다. 이를 개선하기 위한 **비선형 모델**인 **신경망**을 본 강의에서 소개합니다.
 
@@ -24,8 +138,6 @@ softmax 함수의 결과값을 분류 모델의 학습에 어떤식으로 사용
 
 ---
 
-# 1. Decomposition of NN's formula
-
  **선형모델 review**
 
 ![image-20210127104658354](https://user-images.githubusercontent.com/38639633/105992361-5d5d3200-60e8-11eb-8d75-8b715288b86e.png)
@@ -41,7 +153,7 @@ softmax 함수의 결과값을 분류 모델의 학습에 어떤식으로 사용
 
 <br>
 
-## 1.1.Nonlinear neural network - Softmax
+## 4.1.Nonlinear neural network - Softmax
 
 출력 벡터 $\mathbf{O}$에 softmax 함수를 합성하면 확률벡터가 되므로 특정 클래스 $k$에 속할 확률로 해석이 가능하다
 
@@ -71,13 +183,13 @@ $$
 
   
 <br>
-## 1.2. Activation func.
+## 4.2. Activation func.
 - 신경망은 선형모델과 활성화함수를 합성한 함수이다. 
 - 선형모델의 결과인 output vector에 적절한 activation function을 합성하여 원하는 작업을 수행하는 비선형 모델로 만든다. 즉, 활성화함수 $\sigma$는 비선형함수로써, `latent vector` $\mathbf{z} = (z_1, \dots, z_q)$의 각 노드에 개별적으로 적용한 새로운 `New latent vector` $\mathbf{H} = (\sigma(z_1), \dots, \sigma(z_q))$를 만든다. 
 
 
 <br>
-## 1.3. what is Activation function?
+## 4.3. what is Activation function?
 - 활성함수는 $\mathcal{R}$ 위에 정의된 `non-linear`함수로써 딥러닝에서 매우 중요한 개념입니다. 
 - 활성함수를 쓰지 않으면 딥러닝은 선형모형과 차이가 없습니다. 
 - 시그모이드(sigmoid) 함수나 tanh 함수는 전통적으로 쓰이던 활성함수지만 <u>딥러닝에선 ReLU를 많이 쓰고있다.</u> 
@@ -86,7 +198,7 @@ $$
 
 <br>  
 
-## 1.4. Multi-layer Perceptron
+## 4.4. Multi-layer Perceptron
 
 - 1개의 선형모델 + 1개의 활성화 함수가 아닌, 여러개의 선형모델+활성화함수로 이루어진 함수를 의미한다. 
 - ![image-20210127204002881](https://user-images.githubusercontent.com/38639633/105992289-44ed1780-60e8-11eb-82bd-c6e7776cedc8.png)
