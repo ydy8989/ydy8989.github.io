@@ -31,7 +31,7 @@ navbar-links:
   Category:
     - REVIEW: "/category/review"
     - NLP : "/category/nlp"
-    - 추천시스템: "/category/추천시스템"
+    - BOOSTCAMP: "/category/boostcamp"
     - GNN : "/category/gnn"
     - ETC : "/category/etc"
   Tags: "https://ydy8989.github.io/tags"
