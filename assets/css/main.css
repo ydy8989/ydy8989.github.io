@@ -4,6 +4,7 @@ layout: null
 
 @import url("pygment_highlights.css");
 @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding');
+
 /* --- General --- */
 
 html {
@@ -11,8 +12,8 @@ html {
 }
 
 body {
-  font-family: 'Lora', 'Nanum Gothic Coding', serif;
-  font-size: 1.125rem;
+  font-family: 'Open Sans', 'Nanum Gothic Coding', Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
   color: #404040;
   position: relative;
   background: #FFF;
@@ -54,20 +55,25 @@ h3 {
 h4 {
   font-size: 1.125rem;
 }
+/* 링크 색 */
 a {
-  color: #008AFF;
+  color: #d16b6b;
 }
+/* hover : 마우스 올렸을때 */
+/* visited : 방문한 뒤 링크색 */
+/* focus : 드래그 블럭지정했을 때 색 */
 a:hover,
 a:focus {
-  color: #890000;
+  color: #008AFF;
 }
 
+/* 인용구 블럭관련*/
 blockquote {
 
-  border-left: 5px solid #e5e5e5;
-  color: #7a7a7a;
+  border-left: 7px solid #d16b6b;
+  color: #615f5f;
   padding: .5rem 1rem;
-  margin: .8rem 0;
+  margin: .8rem 0rem;
   quotes: "\201C""\201D""\2018""\2019";
 }
 
@@ -541,7 +547,7 @@ footer .footer-custom-content {
 }
 
 .blog-tags a {
-  color: #008AFF;
+  color: #d16b6b;
   text-decoration: none;
   padding: 0 0.3125rem;
 }
