@@ -1,6 +1,6 @@
 ---
 layout: post
-title: (Week2_Day3) Pandas / 딥러닝 학습방법 이해하기 
+title: Week2_Day3 / Pandas & 딥러닝 학습방법 이해하기 
 subtitle: Pandas와 MLP basic
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [star, follow]
