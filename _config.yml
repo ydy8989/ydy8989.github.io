@@ -34,7 +34,7 @@ navbar-links:
     - BOOSTCAMP: "/category/boostcamp"
     - GNN : "/category/gnn"
     - ETC : "/category/etc"
-  Tags: "https://ydy8989.github.io/tags"
+  Search: "search/"
   GitHub: "https://github.com/ydy8989"
   About Me: "aboutme"
 #  Search: "https://ydy8989.github.io/search"
