@@ -134,12 +134,12 @@ date_format: "%B %-d, %Y"
 timezone: "Asia/Seoul"
 markdown: kramdown
 asset_url: /assets
-highlighter: rouge
+syntax_hightlighter: rouge
 permalink: /:year-:month-:day-:title/
 paginate: 5
 
-kramdown:
-  input: GFM
+#kramdown:
+#  input: GFM
 #  syntax_hightlighter: rouge
 
 # Default YAML values (more information on Jekyll's site)

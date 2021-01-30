@@ -1,5 +1,5 @@
-/*.highlight .hll { background-color: #f1fa8c }
-.highlight  { background: #282a36; color: #f8f8f2 }*/
+.highlight .hll { background-color: #ffffff }
+.highlight  { background: #282a36; color: #f8f8f2 }
 .highlight .c { color: #6272a4 } /* Comment */
 .highlight .err { color: #f8f8f2 } /* Error */
 .highlight .g { color: #f8f8f2 } /* Generic */
@@ -75,10 +75,3 @@
 .highlight .vi { color: #8be9fd; font-style: italic } /* Name.Variable.Instance */
 .highlight .vm { color: #8be9fd; font-style: italic } /* Name.Variable.Magic */
 .highlight .il { color: #bd93f9 } /* Literal.Number.Integer.Long */
-code {
-    background-color: #f9f2f4;
-  	color : #e83e8c;
-    border-radius: 10px;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    padding: 5 0px;
-}
