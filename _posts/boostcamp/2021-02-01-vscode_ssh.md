@@ -52,8 +52,10 @@ VSCode를 활용해 Google Colab의 GPU 런타임을 사용하기 위한 SSH 연
 	```
 	> <PUT_YOUR_PASSWORD_HERE>부분에 string으로 사용할 비밀번호 입력
 
-7. ![image-20210201180341855](C:\Users\doyeon\PycharmProjects\ydy8989.github.io\assets\img\boostcamp\image-20210201180341855.png)
-	> 우측 하단의 vscode remote SSH의 command를 복사한다. 
+
+7. 아래 그림에서 우측 하단의 vscode remote SSH의 command를 복사한다.
+    ![image-20210201180341855](../../assets/img/boostcamp/image-20210201180341855.png)
+	
 
 8. VSCode에서 `(Ctrl + Shift + P)`를 누르고 `Remot-SSH : Connet to host` 클릭!
 
@@ -70,7 +72,8 @@ VSCode를 활용해 Google Colab의 GPU 런타임을 사용하기 위한 SSH 연
 14. 상단 `terminal`탭에서 새 터미널을 실행한다. 
 
 15. `nvidia-smi`를 입력하고 Colab의 Gpu할당과 같은지 확인한다. 
-	![image-20210201182447810](C:\Users\doyeon\PycharmProjects\ydy8989.github.io\assets\img\boostcamp\image-20210201182447810.png)
+	![image-20210201182447810](../../assets/img/boostcamp/image-20210201182447810.png)
 	> 성공적으로 연결된 모습
 
-16. Colab에서 구글 cloud와 mount를 했다면, 좌측 `Explorer`에서 `/content/drive/MyDrive `에서 내 Cloud 파일을 확인할 수 있다. 
+16. Colab에서 구글 cloud와 mount를 했다면, 좌측 `Explorer`에서 `/content/drive/MyDrive `에서 내 Cloud 파일을 확인할 수 있다.
+ 
