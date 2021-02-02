@@ -3,7 +3,7 @@ layout: post
 title: 부스트캠프 AI Tech - Pandas I & 딥러닝 학습방법 이해하기 
 subtitle: Pandas와 MLP basic
 gh-repo: ydy8989/ydy8989.github.io
-gh-badge: [star, follow]
+gh-badge: [follow]
 categories: [BOOSTCAMP]
 tags: [boostcamp]
 comments: true

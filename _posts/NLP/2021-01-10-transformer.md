@@ -3,7 +3,7 @@ layout: post
 title: Attention is all you need 논문 리뷰
 subtitle: transformer, bidirectional RNN은 필요없다.
 gh-repo: ydy8989/ydy8989.github.io
-gh-badge: [star, follow]
+gh-badge: [follow]
 categories: [NLP]
 tags: [nlp, transformer, machine translation]
 comments: true

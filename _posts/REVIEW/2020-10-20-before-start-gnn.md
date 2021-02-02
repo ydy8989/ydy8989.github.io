@@ -3,7 +3,7 @@ layout: post
 title: Preliminaries of Graph
 subtitle: Graph Neural Network 준비하기
 gh-repo: ydy8989/ydy8989.github.io
-gh-badge: [star, follow]
+gh-badge: [follow]
 categories: [GNN]
 tags: [graph theory, gnn]
 comments: true

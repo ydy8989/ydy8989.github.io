@@ -3,7 +3,7 @@ layout: post
 title: Exploring randomly wired neural networks for image recognition 논문 리뷰
 subtitle: 랜덤하게 신경망을 만들자
 gh-repo: ydy8989/ydy8989.github.io
-gh-badge: [star, follow]
+gh-badge: [follow]
 categories: [REVIEW]
 tags: [paper, review, graph theory, random graph, NAS]
 comments: true

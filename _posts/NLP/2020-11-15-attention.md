@@ -3,7 +3,7 @@ layout: post
 title: Neural Machine Translation by Jointly Learning to Align and Translate 논문 리뷰
 subtitle: Attention의 등장
 gh-repo: ydy8989/ydy8989.github.io
-gh-badge: [star, follow]
+gh-badge: [follow]
 categories: [NLP]
 tags: [nlp, attention, rnn, machine translation, nmt, alignment]
 comments: true
