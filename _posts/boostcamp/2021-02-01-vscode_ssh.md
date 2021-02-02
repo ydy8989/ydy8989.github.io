@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Week3_Day1 / 윈도우10에서 VSCode로 Colab에 SSH 연결하기
+title: 부스트캠프 AI Tech - 윈도우10에서 VSCode로 Colab에 SSH 연결하기
 subtitle: 쉽지만 어렵다..
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [star, follow]
