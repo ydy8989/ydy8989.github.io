@@ -25,6 +25,9 @@ body {
   background-image: url({{ site.page-img | relative_url }});
   background-attachment: fixed;
   {% endif %}
+    display: flex;
+  flex-flow: column;
+  height: 100vh;
 }
 */
 body {
@@ -33,9 +36,14 @@ body {
   color: #404040;
   position: relative;
   background: #FFF;
-  display: flex;
-  flex-flow: column;
-  height: 100vh;
+  {% if site.page-col %}
+  background: {{ site.page-col }};
+  {% endif %}
+  {% if site.page-img %}
+  background-image: url({{ site.page-img | relative_url }});
+  background-attachment: fixed;
+  {% endif %}
+
 }
 .container[role=main] {
   margin-bottom:50px;
