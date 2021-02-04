@@ -66,9 +66,9 @@ Transformer는 바로전 리뷰한 논문인 [Neural Machine Translation by Join
 
 먼저, transformer에서 가장 핵심이 되는 multi-head attention layer에 대해 알아보도록 하자. 
 
-논문에서 어텐션 함수는 Query와 Key-value pair의 관계를 output으로 mapping(함수)한다고 말하고 있다. 즉, Input 값으로 받은 Query와 Key-Value vector를 바탕으로 output을 도출하는 함수이며, 이때 output은 value값의 weighted sum으로 계산된다고 한다.
+논문에서 어텐션 함수는 `Query`와 `Key`-`value` pair의 관계를 output으로 mapping(함수)한다고 말하고 있다. 즉, Input 값으로 받은 Query와 Key-Value vector를 바탕으로 output을 도출하는 함수이며, 이때 output은 value값의 `weighted sum`으로 계산된다고 한다.
 
-트랜스포머 구조에서의 attention은 multi-head attention으로 이뤄져있고, 이 multi-head attention은 scaled dot product attention으로 구성되어 있다. 
+트랜스포머 구조에서의 attention은 `multi-head attention`으로 이뤄져있고, 이 multi-head attention은 `scaled dot product attention`으로 구성되어 있다. ~~무슨소리냐고? 이제부터 읽어보자~~
 
 <br>
 
@@ -76,7 +76,10 @@ Transformer는 바로전 리뷰한 논문인 [Neural Machine Translation by Join
 
 ![](/assets/img/scaled_dot_product.PNG){: width="50%"}{: .center}
 
-Scaled Dot-Product attention layer는 위와 같다. 모든 K(key)로 Q(query)를 내적하고 이를 $$\sqrt d_k$$로 나눠 스케일링한다. Masking은 패딩된 부분에 대해서는 attention 연산을 하지 않는 과정이며 이는 그림과 같이 옵션이다. 이후 각 벡터를 softmax를 통해 vector에서 token이 갖는 값의 비중을 구하고, 이를 마지막으로 V(value)와 다시 곱하여 attention score를 구한다. 
+Scaled Dot-Product attention layer는 위와 같다.   
+모든 K(key)로 Q(query)를 내적하고 이를 $$\sqrt d_k$$로 나눠 스케일링한다.   
+Masking은 패딩된 부분에 대해서는 attention 연산을 하지 않는 과정이며 이는 그림과 같이 옵션이다.   
+이후 각 벡터를 softmax를 통해 vector에서 token이 갖는 값의 비중을 구하고, 이를 마지막으로 V(value)와 다시 곱하여 attention score를 구한다. 
 
 식은 다음과 같다.
 
