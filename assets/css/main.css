@@ -1138,12 +1138,10 @@ h6 code {
 h1 {
     font-size: 2.25em;
     line-height: 1.2;
-    border-bottom: 1px solid #eee;
 }
 h2 {
     font-size: 1.75em;
     line-height: 1.225;
-    border-bottom: 1px solid #eee;
 }
 
 /*@media print {
