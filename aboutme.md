@@ -6,7 +6,7 @@ subtitle: Machine learning engineer,<br/>focused on graph_theory and recommendat
 <br/>
 
 ## About me
----
+
 
 Hello. This is Do-yeon Yoon, who likes math and studies AI. I mainly studied combinatorics in mathematics, and I studied anti-bandwidth on graph structures. Recently, I am interested in various domains such as finance and healthcare, and I understand the key considerations of those domains. I am studying with the next goal of achieving results through the combination of graph theory and deep learning.
 Thanks!&#128525;
@@ -14,7 +14,6 @@ Thanks!&#128525;
 <br/>
 
 ## Interests🙄
----
 - Math : Graph theory, Anti-bandwidth
 - DL/ML : Medical Segmentation, Financial
 - Studying : GNN, Recommend System
