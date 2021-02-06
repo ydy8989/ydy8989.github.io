@@ -95,7 +95,7 @@ a:focus {
 /* 인용구 블럭관련*/
 blockquote {
 
-  border-left: 7px solid #d16b6b;
+  border-left: 7px solid #faa2a2;
   color: #615f5f;
   padding: .5rem 1rem;
   margin: .8rem 0rem;
@@ -1294,7 +1294,9 @@ table td:last-child {
 .md-mathjax-midline {
     background: #fafafa;
 }
-
+.MathJax_Display{
+  font-size: 1rem;
+}
 #write>h3.md-focus:before{
 	left: -1.5625rem;
 	top: .375rem;
