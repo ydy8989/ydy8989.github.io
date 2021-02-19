@@ -142,6 +142,8 @@ Transformer(Self-Attention)에 대해 이어서 자세히 알아봅니다.
 
 ## Transformer: Multi-Head Attention
 
+여러 버전의 head를 병렬적으로 만든 뒤 여러번 수행하여 위험 부담(?)을 줄인다.
+
 - The input word vectors are the queries, keys and values
 - In other words, the word vectors themselves select each other
 - **Problem** of single attention
@@ -149,4 +151,121 @@ Transformer(Self-Attention)에 대해 이어서 자세히 알아봅니다.
 - **Solution**
 	- Multi-head attention maps $𝑄, 𝐾, 𝑉$ into the $ℎ$ number of lower-dimensional spaces via $𝑊$ matrices
 - Then apply attention, then concatenate outputs and pipe through linear layer
+
+![image](https://user-images.githubusercontent.com/38639633/108366124-58992300-723b-11eb-8c44-0dcb63b16906.png){:width="40%"}{:.center}
+
+---
+
+- Example from illustrated transformer
+
+	1. 각 헤드별로 self-attention 연산을 수행한다. 
+
+		![image](https://user-images.githubusercontent.com/38639633/108367812-28eb1a80-723d-11eb-93d9-d2b1952d1c5d.png)
+
+	2. Head별로 계산된 context vector를 concatenate한다. 
+
+		![image](https://user-images.githubusercontent.com/38639633/108367991-4f10ba80-723d-11eb-887c-4f7ea326e638.png)
+
+		![image](https://user-images.githubusercontent.com/38639633/108368078-68b20200-723d-11eb-94aa-e903c6060d7c.png)
+
+	3. single attention module의 아웃풋과 동일한 사이즈를 위해 적절한 가중치 matrix를 곱해준다.
+
+		![image](https://user-images.githubusercontent.com/38639633/108368310-a6168f80-723d-11eb-9861-31c11216f486.png)
+
+### per-layer complexity
+
+- Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types
+
+	- $n$ is the sequence length
+	- $d$ is the dimension of representation
+	- $k$ is the kernel size of convolutions
+	- $r$ is the size of the neighborhood in restricted self-attention
+
+	![image](https://user-images.githubusercontent.com/38639633/108372541-479fe000-7242-11eb-9046-97af2ebdd5ca.png)
+
+	
+
+## Transformer: Block-Based Model
+
+각 Block은 두 개의 sub-layers를 지닌다. 
+
+- Multi-head attention 모듈
+- Two-layer feed-forward NN(with ReLU)
+
+그리고 이 두 개의 모듈은 모두 Residual connection과 layer normalization 스텝을 거친다
+
+- $LayerNorm(x+sublayer(x))$
+
+
+
+### Residual connection
+
+![image](https://user-images.githubusercontent.com/38639633/108375943-cba79700-7245-11eb-851f-4b3cf7b8d32a.png){:width="30%"}{:.center}
+
+- residual connection은 그림에서와 같이 입력 벡터를 attention layer를 통과한 output에 다시 더해주는 방식이다
+- 이를 통해 얻을 수 있는 효과는 **온전히** input vector가 attention layer를 통과한 뒤의 결과만을 반영한다는 점이다. 
+	- 예를들어 input vector [1, -4]가 일반적인 attention module을 통과한 뒤 [2, 3]이 되었다고 가정하면, **residual connection**을 통해 [3, -1]의 벡터를 만들게한다. 이는 학습과정에서 온전히 attention module의 역할이 [2, 3]의 벡터를 만들게끔 유도하는 역할을 한다. 
+- 이 과정을 통해 gradient vanishing 문제를 해결하고, 학습이 안정될 수 있도록 한다. 
+
+
+
+### Layer Normalization
+
+학습 도중 샘플의 분포를 normalization 해주는 다양한 방식이 존재한다. 
+
+Layer normalization changes input to have zero mean and unit variance, per layer and per training point (and adds two more parameters)
+
+![image](https://user-images.githubusercontent.com/38639633/108378501-6608da00-7248-11eb-8f99-2f86642b0009.png)
+
+![image](https://user-images.githubusercontent.com/38639633/108378523-6acd8e00-7248-11eb-829a-ee974d91989e.png)
+
+차이는 있지만, 각 샘플들의 평균을 0, 분산을 1로 만들어주는 과정이다. 이 과정은 Neural network의 특정 node에서 원하는 만큼의 값을 가지도록 조절할 수 있게 해준다. 
+
+어쨌든 다양한 normalization중 우리가 볼 Layer normalization은 두 가지 step으로 구성된다.
+
+- Normalization of each word vectors to have mean of zero and variance of one.
+
+- Affine transformation of each sequence vector with learnable parameters
+
+	![image](https://user-images.githubusercontent.com/38639633/108379252-1840a180-7249-11eb-81b8-e45f726690b3.png)
+
+	- thinking과 machines라는 단어가 각각 4차원의 vector로 표현 되었을 때, word별로 특정 layer에서 발견되는 4개의 node의 값들을 모아서 평균과 표준편차를 모아서 각각 평균과 표준편차를 0과 1로 만들어준다.  
+	- 그러면 이 표준화 작업을 거친 vector의 값들은 바뀌게 된다.(그림에서 `2번째`)
+	- 이렇게 변환된 vector를 `Affine transformation`하여 결과로 도출되게 된다. 
+
+**이렇듯 layer normalization을 거치면서 우리가 원하는 평균과 분산을 주입할 수 있게 된다.** 
+
+
+
+## Transformer: Positional Encoding
+
+RNN 계열의 모델은 time step에 따른 input의 순서가 자연스레 정해지게 된다. 하지만, token(word)의 상대적 순서를 알려주는 구조가 없는 transformer에서는 이를 위한 구조가 필요하기에 사용된 방법이 positional encoding이다. 이 내용은 본 블로그의 이전 [포스팅](https://ydy8989.github.io/2021-01-10-transformer/#23-positional-encoding)에 작성하였기에 생략하도록 한다. 
+
+![image](https://user-images.githubusercontent.com/38639633/108387657-22ff3480-7251-11eb-9ef8-eca0ba054505.png)
+
+
+
+## Transformer: Warm-up Learning Rate Scheduler
+
+학습을 조금 더 빠르게 하고, 최종 수렴 모델의 성능을 향상시키기 위한 방식으로써 고정된 learning rate를 사용하는 것이아니라 학습이 진행됨에 따라 lr을 변경시키는 방식이다. 
+
+- Learning rate = $$d_{model}^{−0.5}\cdot min(\#step^{-0.5}, \#step\cdot warmup\_stps^{-1.5})$$ 
+
+	![image](https://user-images.githubusercontent.com/38639633/108388380-eaac2600-7251-11eb-81e8-5edf7176a741.png)
+
+
+
+## Transformer: Encoder Self-Attention Visualization
+
+- Words start to pay attention to other words in sensible ways
+
+	![image](https://user-images.githubusercontent.com/38639633/108390240-cfdab100-7253-11eb-9da1-4a4da3950585.png)
+
+	> [Colab link](https://colab.research.google.com/github/tensorflow/tensor2tensor/blob/master/tensor2tensor/notebooks/hello_t2t.ipynb)에 가면 visualization에 대한 tutorial을 시도해볼 수 있다.
+	>
+	> - 좌측상단 "드라이브로 복사" 클릭 후 기존창 닫고 새로 열린창에서 실행 
+
+	
+
+## Transformer: Decoder
 
