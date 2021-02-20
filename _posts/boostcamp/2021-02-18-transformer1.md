@@ -34,7 +34,6 @@ comments: true
 - Attention 연산을 한다해도, 뒤로 갈수록 먼저 입력된 단어 "I"는 희석되게 된다.  
 
 
-
 ## Bi-Directional RNNs
 
 ![image](https://user-images.githubusercontent.com/38639633/108291960-81d39800-71d6-11eb-945c-96fb9f0bd052.png)
@@ -268,4 +267,73 @@ RNN 계열의 모델은 time step에 따른 input의 순서가 자연스레 정�
 	
 
 ## Transformer: Decoder
+
+- Two sub-layer changes in decoder
+
+- Masked decoder self-attention on previously generated outputs:
+
+	![image](https://user-images.githubusercontent.com/38639633/108591796-d67d3b80-73ad-11eb-8113-9b57564723d4.png)
+
+- Encoder-Decoder attention, where queries come from previous decoder layer and keys and values come from output of encoder
+
+	![image](https://user-images.githubusercontent.com/38639633/108591809-e39a2a80-73ad-11eb-8b93-85eecc029198.png)
+
+Input과 비슷하게, Output을 shifted right하여 입력한다. 예를 들어보자.
+
+- Input : 'I go home'
+- Output : '\<SOS> 나는 집에' 로 입력 sequence로 주어진다. 
+	- ground truth : '나는 집에 간다'
+
+이와 같은 방식으로 shifting된 output을 입력으로 준다.(seq2seq에서 decoder input과 같은역할)
+
+
+
+Transformer의 Decoder에는 총 2개의 attention module이 있다. 
+
+- Masked Multi-head attention
+- Multi-head attention
+
+### Multi-head attention(Decoder)
+
+![image](https://user-images.githubusercontent.com/38639633/108594746-1b5d9e00-73bf-11eb-8486-283649b71c21.png)
+
+위 그림의 빨간색 사각형 부분의 Multi-Head Attention 구조는 Encoder의 multi-head attention module과 구조상으로는 동일하다. 단, 차이점이 있다면 입력으로 들어오는 Q, K, V 벡터가 다른데, 그림에서 볼 수 있듯 `두 개`의 화살표는 encoder로부터 들어오고, `한 개`의 화살표는 아래 Masked multi-head attention module로부터 온다. 
+
+`Query` 벡터는 Masked multi-head attention으로부터 오고, `Key` 벡터와 `Value` 벡터는 학습된 상태로 Encoder에서 들어온다. 
+
+특히, Masked multi-head attention으로부터 나온 Residual connection은 decoder의 input으로부터 온 query값과 encoder에서 넘어온 벡터를 결합하게 해주는 역할을 할 것이다. 
+
+최종적으로 각 벡터의 출력은 FFN와 softmax layer를 거친 뒤 predict 되고, 이는 ground truth와 비교하여 back prop.을 계산하게 된다. 
+
+
+
+### Masked Multi-Head attention(Decoder)
+
+- Those words not yet generated cannot be accessed during the inference time
+- Renormalization of softmax output prevents the model from accessing ungenerated words
+
+Decoder의 첫번째 input이 들어온 뒤의 multi-head attention layer로써, 출력 단어가 자기보다 앞서 이미 앞에 나왔던 단어들만 참고해서 연산하는 attention layer이다. 뒤쪽에 나온 단어까지 참고해 앞을 예측하게 한다면 이는 일종의 cheating처럼 작용해 auto-regressive를 수행하지 못하는 모델이 된다.
+
+이를 위해서는 현재 진행중인 단어보다 뒤쪽 단어들에 대한 masking 작업이 필요하다. Masking의 방식은 아래와 같다.
+
+| query/key |  I   |    am    |    a     |   boy    |
+| :-------: | :--: | :------: | :------: | :------: |
+|     I     |  23  | $\infty$ | $\infty$ | $\infty$ |
+|    am     |  15  |    27    | $\infty$ | $\infty$ |
+|     a     |  14  |    20    |    23    | $\infty$ |
+|    boy    |  11  |    18    |    22    |    25    |
+
+$Q\times K^T$를 통해 만들어진 행렬을 위와 같이 참고하지 않을 부분을 $\infty$로 할당해 줌으로써 softmax의 output이 0으로 수렴하게 만든다.
+
+![masked](../../assets/img/boostcamp/masked.gif){:width="50%"}![masked2](../../assets/img/boostcamp/masked2.gif){:width="50%"}
+
+
+
+## Transformer: Experimental Results
+
+- Results on English-German/French translation (newstest2014)
+
+![image](https://user-images.githubusercontent.com/38639633/108597619-4f3fc000-73cd-11eb-811d-f46cdff6226f.png)
+
+BLEU 스코어가 50%가 안되는 성능으로 보이더라도, 우리나라 말처럼 어순의 변화가 있지만 이해하는데 어려움이 없는 경우도 많기에 나쁘지 않은 성능으로 취급된다. 
 
