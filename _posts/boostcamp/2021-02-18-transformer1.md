@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 부스트캠프 AI Tech - Transformer I
+title: Transformer I
 subtitle: 그야말로 Attention is all you need
 thumbnail-img : https://user-images.githubusercontent.com/38639633/108290231-5307f280-71d3-11eb-9576-f3cf9eca37a0.png
 gh-repo: ydy8989/ydy8989.github.io
