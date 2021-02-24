@@ -1,7 +1,7 @@
 ---
 layout: post
-title: PageRank System이란?
-subtitle: 검색엔진에서의 graph ranking
+title: Community Detection in Graphs
+subtitle: 군집탐색을 위한 Girvan-Newman / Louvain 알고리즘
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
 categories: [BOOSTCAMP]
@@ -30,43 +30,39 @@ Community(군집)이란 다음의 조건들을 만족하는 정점을 의미한�
 
 '많은'과 '적은 수'와 같은 단어는 수학적으로 정의하기 애매하며, 위 정의는 엄밀하지 않다. 하지만, 아래 그림과 같이 눈으로 봐도 비교적으로 군집이 분류됨을 확인할 수 있다. 
 
-![image](https://user-images.githubusercontent.com/38639633/108942074-a4aff180-7699-11eb-8677-24b3ab5616c7.png)
+![image](https://user-images.githubusercontent.com/38639633/108942074-a4aff180-7699-11eb-8677-24b3ab5616c7.png){:.center}
 
  
 
 실생활 속에서의 군집은 다양한 형태로 나타나고 있다. 
-
 - 조직 내 분란이 소셜 네트워크 상의 군집으로 표현됨
 - 온라인 상에서의 군집은 사회적 무리를 의미함
 - 부정행위와 관련된 경우가 많음
 - 키워드 군집 - 광고에 활용
 - 뉴런간의 연결 그래프 - 뇌의 기능적 구성단위를 의미
 
+<br>
 
+### 군집 탐색
 
-### **군집 탐색**
-
-이처럼 그래프를 여러 군집으로 "잘" 나누는 문제를 군집 탐색(Community Detection) 문제라고 한다. 
-
+이처럼 그래프를 여러 군집으로 "잘" 나누는 문제를 군집 탐색(Community Detection) 문제라고 한다.   
 - 보통은 각 정점이 한개의 군집에 빠짐없이 속하도록 군집을 나눈다. 
 - 비지도 기계학습 문제인 클러스터링(Clustering)과 상당히 유사하다
 	- 차이점은 클러스터링의 경우 해당 정점 혹은 인스턴스들이 사영되는 vector를 분류하는 것이 clustering이고, 정점 자체를 분류하는 것이 군집 탐색(Community detection)이다. 
 
-
+<br>
 
 ## 군집 구조의 통계적 유의성과 군집성
 
 ### Configuration Model(배치모형)
 
 주어진 그래프에 대하여 `배치모형`은 다음과 같은 그래프를 의미한다. 
-
 - 각 정점의 연결성을 보존한 상태에서 
 - 간선들을 무작위로 재배치하여 얻은 그래프
 
 ![image](https://user-images.githubusercontent.com/38639633/108982835-8ebe2300-76d1-11eb-88a8-1e6855acf188.png){:.center}
 
 배치 모형에서 임의의 두 정점 $i$와 $j$ 사이에 간선이 존재할 확률은 두 정점의 연결성에 비례한다. `군집 탐색`의  성공 여부를 판단하기 위해 `군집성(Modularity)`를 사용한다. 
-
 - 그래프와 군집들의 집합 $S$가 주어졌을때, 각 군집 $s\in S$가 군집의 성질을 잘 만족하는 지를 살펴보기 위해, 군집 내부의 간선 수를 <u>그래프</u>와 <u>배치모형</u>에서 비교한다. 
 - `군집성` : $\frac{1}{2\vert E\vert}\sum_{s\in S}$(그래프에서 군집 s의 내부 간선 수 - 배치모형에서 군집s 내부 간선 수의 기댓값)
 - 즉, 배치모형과 비교했을 때, 그래프에서 군집 내부 간선의 수가 월등히 많을 수록 성공한 군집탐색이다.
@@ -74,64 +70,55 @@ Community(군집)이란 다음의 조건들을 만족하는 정점을 의미한�
 
 
 즉, **Modularity**는 무작위로 연결된 배치 모형과의 비교를 통해 통계적 유의성을 판단한다. 
-
 -  항상 -1과 +1 사이의 값을 갖는다.
 - 일반적으로, 군집성 0.3~0.7 정도의 값을 가질 때, 그래프에 존재하는 통계적으로 유의미한 군집들을 찾았다고 할 수 있다. 
 
-
+<br>
 
 ## 군집 탐색 알고리즘
 
 - Girvan-Newman 알고리즘
 - Louvain 알고리즘
 
-
+<br>
 
 ### Girvan-Newman 알고리즘
 
 - 대표적인 top-down 군집 탐색 알고리즘이다. 
-
 - 전체 그래프에서 탐색을 시작하여, 군집들이 서로 분리되도록, `간선들을 순차적으로 제거`한다.
-
 	- 어떤 Edge를 제거해야 군집들이 분리될까?
-
 	- 바로 서로 다른 군집간 연결을 해주는 `Bridge(다리)`역할의 간선이다.
 
-		![image](https://user-images.githubusercontent.com/38639633/108986221-3e48c480-76d5-11eb-81f2-4596dc2aa9a9.png)
+		![image](https://user-images.githubusercontent.com/38639633/108986221-3e48c480-76d5-11eb-81f2-4596dc2aa9a9.png){:.center}
 
 - 그렇다면 서로 다른 군집을 잇는 다리 역할의 간선은 어떻게 찾을까?
-
 	- 간선의 `매개 중심성(Betweenness Centrality)`를 사용한다. 이는 해당 간선이 **정점 간의 최단 경로에 놓이는 횟수**를 의미한다.
 	- 정점 $i$로부터 $j$로의 최단 경로 수를 $\sigma_{i,j}$라고하고, 그 중 간선 $(x,y)$를 포함한 것을 $\sigma_{i,j}(x,y)$라고하자.
 	- 이때, 간선 $(x,y)$의 매개 중심성은 다음 수식으로 계산된다.
-	- $$\sum_{i<j}\frac{\sigma_{i,j}(x,y)}{\sigma_{i,j}}$$
-	- ![image](https://user-images.githubusercontent.com/38639633/108986747-d0e96380-76d5-11eb-925a-bf1df213f377.png)
+	
+	    $$\sum_{i<j}\frac{\sigma_{i,j}(x,y)}{\sigma_{i,j}}$$
+	    
+	    ![image](https://user-images.githubusercontent.com/38639633/108986747-d0e96380-76d5-11eb-925a-bf1df213f377.png){:.center}
 	- 위 그림에서 좌측 4점과 우측 4점을 잇는 중간 edge는 그래프 내의 임의의 두 점을 이을 때 총 16번을 거치게되므로 betweenness centrality는 16이 된다. 
 		- betweenness centrality에 대한 자세한 내용을 [여기](https://frhyme.github.io/python-lib/network-centrality/#betweenness-centrality)에서 확인할 수 있다. 
 	- 눈치 챘을지 모르겠지만, betweenness centrality이 **높을 수록**, 각 군집을 연결하는 bridge 역할을 하는 것을 알 수 있다. 
 
 - 알고리즘의 순서는 다음과 같다. 
-
 	- 매개 중심성이 높은 간선을 순차적으로 제거한다. 
 	- 간선이 제거될 때마다, betweenness centrality를 다시 계산하여 갱신한다. 
 	- 간선이 모두 제거될 때까지 반복한다. 
 
 - 간선의 제거 정도에 따라서 다른 `Granularity(입도)`의 군집 구조가 나타난다.
-
-	![image](https://user-images.githubusercontent.com/38639633/108989963-8cf85d80-76d9-11eb-93be-620dec58f69c.png)
+	![image](https://user-images.githubusercontent.com/38639633/108989963-8cf85d80-76d9-11eb-93be-620dec58f69c.png){:.center}
 
 - 그렇다면 간선을 어느정도로 제거해야 적합할까?
-
 	- 너무 적게 제거하면 군집의 탐색이 완전하지 않다.
-
 	- 너무 많이 제거하면 과도한 군집 분해로 적합하지 않다. 
-
 	- 현재 time step에서의 connection을 기준으로 군집을 가정한다. 단, 이때마다 각 입력 그래프에서의 군집성(Modularity)을 계산한다.
 
-		![image](https://user-images.githubusercontent.com/38639633/108990201-dfd21500-76d9-11eb-88c9-4ababda91b21.png)
+		![image](https://user-images.githubusercontent.com/38639633/108990201-dfd21500-76d9-11eb-88c9-4ababda91b21.png){:.center}
 
 - 요약하면 Girvan-Newman 알고리즘은 다음과 같다.
-
 	1. 전체 그래프에서 시작한다.
 	2. 매개 중심성이 높은 순서로 간선을 제거하면서, 군집성의 변화를 기록한다.
 	3. 군집성이 가장 커지는 상황을 복원한다.
@@ -139,21 +126,72 @@ Community(군집)이란 다음의 조건들을 만족하는 정점을 의미한�
 
 	즉, 전체 그래프에서 시작해서 점점 작은 단위를 검색하는 하향식(탑다운) 방법이다. 
 
-​	
+<br>​	
 
 ### Louvain 알고리즘
 
 Louvain 알고리즘은 대표적인 상향식(Bottom-Up) 군집 탐색 알고리즘이다. 
 
+- 각 정점이 하나의 군집이라고 가정하며 시작한다.
+- 점점 군집을 병합시키면서 큰 군집을 형성한다. (이 과정을 1pass라고 한다.)
+- pass를 중첩시키면서 점점 큰 군집을 합친다.
 
 
+그렇다면 어떤 기준으로 군집을 합칠까? **군집성**!
+1. Louvain 알고리즘은 개별 정점으로 구성된 크기 1의 군집들로부터 시작한다.
+2. 각 정점 $u$를 기존 혹은 새로운 군집으로 이동한다. 이때, 군집성이 `최대화`되도록 군집을 결정한다. 
+3. 더 이상 군집성이 증가하지 않을 때까지 `step 2`를 반복한다.
+4. 각 군집을 하나의 정점으로하는 군집 레벨의 그래프를 얻은 뒤 `step 3`를 수행한다. 
+	![image](https://user-images.githubusercontent.com/38639633/109022665-64835a00-76ff-11eb-9b52-49af85c255ed.png){:.center}
+5. 한 개의 정점이 남을 때까지 `step 4`를 반복한다.
+
+<br>
+
+## 중첩이 있는 군집 탐색
+
+실생활에서의 그래프 군집에서는 중첩이 많다. 각 개인(vertex)는 여러 네트워크에 속하여 사회적 역할을 수행한다. 
+앞서 배운 Girvan-Newman 혹은 Louvain 알고리즘은 **군집 간의 중첩이 없다**고 가정한 상태에서 시작하는 알고리즘이다. 그렇다면, 중첩이 있는 경우에 군집을 어떻게 찾을까?
+![image](https://user-images.githubusercontent.com/38639633/109023095-d491e000-76ff-11eb-8019-c4a698a778bb.png){:width="70%"}{:.center}
+
+<br>
+
+### 중첩 군집 모형
+
+아래와 같은 중첩 군집모형을 가정하자.
+
+1. 각 정점은 여러 개의 군집에 속할 수 있다. 
+2. 각 군집 A에 대하여 같은 군집에 속하는 두 정점은 $P_A$ 확률로 간선으로 직접 연결된다. 
+3. 두 정점이 여러 군집에 동시에 속할 경우 간선 연결 확률은 독립적이다.
+	1. 예) 두 정점이 A, B 두 군집에 동시에 속할 경우, 두 정점이 간선으로 직접 연결될 확률은 $1-(1-P_A)(1-P_B)$이다. 
+4. 어느 군집에도 속하지 않는 두 정점은 낮은 확률 $\epsilon$으로 직접 연결된다.
+
+-------------------------------------------------------------
+
+위와 같이 군집 모형이 주어지면 주어진 그래프의 확률을 계산할 수 있다. 그래프의 확률은 다음 확률들의 곱으로 표현가능하다. 
+- 그래프의 각 간선의 두 정점이 (모형에 의해) 직접 연결될 확률
+- 그래프에서 직접 연결되지 않은 각 정점 쌍이 (모형에 의해) 직접 연결되지 않을 확률
+	![image](https://user-images.githubusercontent.com/38639633/109024157-cb554300-7700-11eb-806c-f34a8f38c5ba.png){:.center}
+- 중첩 군집 모형을 통해 그래프의 확률을 계산할 수 있다. 
+- 하지만, 현실에서는 반대로 그래프는 주어져 있지만 중첩군집모형이 주어지지 않은 경우가 많다. 
+- `중첩 군집 탐색`은 주어진 그래프의 확률을 최대화하는 중첩 군집 모형을 찾는 과정이다. 
+	![image](https://user-images.githubusercontent.com/38639633/109027515-36ecdf80-7704-11eb-98b5-90325aa3d0cf.png){:.center}
+- 이는 통계적으로 Maximum Likelihood Estimate(최우도 추정치)를 찾는 과정과 동일하다. 즉, 주어진 그래프의 확률을 최대화하는 중첩 군집 모형을 찾는 과정이다. 
+- 하지만 이 추정은 쉽지 않다. 그 이유는 각 vertex가 각 군집에 속하는지 여부가 이산적(discrete)으로 결정되기 때문이다. 이말은 Continuous한 도메인에서 사용할 수 있는 각종 최적화 기술들(이를테면 경사하강법)을 사용할 수 없음을 의미한다. 
+
+---
+
+이에따라 중첩 군집 탐색을 용이하게 하기 위한 `완화된 중첩 군집 모형`이 사용된다. 
+
+- 완화된 중첩 군집 모형은 각 정점이 각 군집에 속해있는 정도를 `실수값`으로 표현한다. 
+- 즉, 기존 모형에서는 각 정점이 각 군집에 속함 / 안속함 둘중 하나였다면, 이 방식은 어느 그룹에 속할 확률이 얼마인지를 표현할 수 있게 된 것이다. 
+	![image](https://user-images.githubusercontent.com/38639633/109028207-eaee6a80-7704-11eb-992a-e290b35384ca.png){:.center}
+- 복잡해보이지만, 모형의 매개변수들이 실수 값을 가지기 때문에, 익숙한 최적화 도구(경사하강법 등)를 사용하여 모형을 탐색할 수 있다는 장점이 있다. 
 
 
-
-
+<br>
 
 
 **Further Reading**
+- [http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf](http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf)
 
-- http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf
-
+<br>
