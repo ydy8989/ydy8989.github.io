@@ -1,15 +1,17 @@
 ---
 layout: post
-title: Community Detection in Graphs
-subtitle: 군집탐색을 위한 Girvan-Newman / Louvain 알고리즘
+title: Community Detection and Collaborative Filtering
+subtitle: 군집탐색(Girvan-Newman / Louvain) & CF basic
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
 categories: [BOOSTCAMP]
-tags: [boostcamp,transformer, machine translation]
+tags: [boostcamp,reccomendation]
 comments: true
 ---
 
 이번 강의에서는 그래프에서의 군집(Community)이 무엇인지 배우고, 군집에 대한 해석, 그래프에서 군집을 탐색하는 법에 대해 배웁니다. 실제 세상에서 우리는 주변에서 여러가지 종류의 군집을 볼 수 있습니다. 인간 관계 사이에서 (ex. 동아리, 동창회), 화학 물질 내부에서 등 **어디서나** 군집을 발견할 수 있습니다. 그렇다면, 우리는 **그래프 데이터**에서 군집을 **어떻게 정의**하고, **어떻게 찾아**낼까요? 이번 장을 통해서 그래프 데이터에서 군집을 찾아내는 알고리즘을 배워보고, 실제로 적용까지 해보겠습니다!
+
+넷플릭스와 유투브의 컨텐츠 추천, 아마존의 상품 추천 등 우리는 일상생활 속 다양한 곳에서 추천 시스템을 사용하고 있습니다. 이번 강의에서는 다양한 형태의 추천시스템 중 아이템의 내용을 사용해 추천해주는 **'내용 기반 추천(contents based recommendation')**과, 유저와 아이템간의 유사도를 통해 추천을 해주는 **'협업 필터링(collaborative filtering)'**에 대해 공부해봅니다. **각 알고리즘의 장단점에 집중**하면서 강의를 들어봅시다!
 
 
 
@@ -100,9 +102,10 @@ Community(군집)이란 다음의 조건들을 만족하는 정점을 의미한�
 	    
 	    ![image](https://user-images.githubusercontent.com/38639633/108986747-d0e96380-76d5-11eb-925a-bf1df213f377.png){:.center}
 	- 위 그림에서 좌측 4점과 우측 4점을 잇는 중간 edge는 그래프 내의 임의의 두 점을 이을 때 총 16번을 거치게되므로 betweenness centrality는 16이 된다. 
+		
 		- betweenness centrality에 대한 자세한 내용을 [여기](https://frhyme.github.io/python-lib/network-centrality/#betweenness-centrality)에서 확인할 수 있다. 
-	- 눈치 챘을지 모르겠지만, betweenness centrality이 **높을 수록**, 각 군집을 연결하는 bridge 역할을 하는 것을 알 수 있다. 
-
+- 눈치 챘을지 모르겠지만, betweenness centrality이 **높을 수록**, 각 군집을 연결하는 bridge 역할을 하는 것을 알 수 있다. 
+	
 - 알고리즘의 순서는 다음과 같다. 
 	- 매개 중심성이 높은 간선을 순차적으로 제거한다. 
 	- 간선이 제거될 때마다, betweenness centrality를 다시 계산하여 갱신한다. 
@@ -187,11 +190,188 @@ Louvain 알고리즘은 대표적인 상향식(Bottom-Up) 군집 탐색 알고�
 	![image](https://user-images.githubusercontent.com/38639633/109028207-eaee6a80-7704-11eb-992a-e290b35384ca.png){:.center}
 - 복잡해보이지만, 모형의 매개변수들이 실수 값을 가지기 때문에, 익숙한 최적화 도구(경사하강법 등)를 사용하여 모형을 탐색할 수 있다는 장점이 있다. 
 
+<br>
+
+# 추천시스템 Basic
+
+## 내용 기반 추천시스템의 원리
+
+`내용 기반(Content-based) 추천`은 각 사용자가 구매/만족했던 상품과 유사한 것을
+추천하는 방법입니다. 예시는 다음과 같습니다
+
+- 동일한 `장르`의 영화를 추천하는 것
+- 동일한 `감독`의 영화 혹은 동일 `배우`가 출현한 영화를 추천하는 것
+- 동일한 `카테고리`의 상품을 추천하는 것
+- `동갑`의 같은 `학교`를 졸업한 사람을 친구로 추천하는 것
 
 <br>
+
+### 내용기반 추천의 단계
+
+![image](https://user-images.githubusercontent.com/38639633/109114348-d6e84e80-7780-11eb-9e29-c5fb96c325cc.png){:.center}
+
+- 사용자가 선호했던 상품들의 `상품 프로필`을 수집하는 단계
+
+	- 해당 상품의 특성을 나열한 `벡터`를 의미한다. 
+
+	- 영화의 경우 감독, 장르, 배우 등의 `one-hot-encoding`이 프로필로 사용될 수 있다. 
+
+		![image](https://user-images.githubusercontent.com/38639633/109114453-0303cf80-7781-11eb-86f0-4ed1630d2658.png){:.center}
+
+- `사용자 프로필(User Profile)`을 구성하는 단계
+
+	- 사용자 프로필은 선호한 상품의 상품 프로필을 선호도를 사용하여 가중 평균하여 계산합니다 즉 사용자 프로필 역시 벡터를 말한다.
+	- 이 역시 상품 프로필과 비슷한 형태의 one-hot-encoding으로 표현될 수 있다.
+
+- 사용자 프로필과 상품 프로필을 `매칭`하는 단계
+
+	- 사용자 프로필 벡터 $\vec{u}$와 상품 프로필 벡터 $\vec{v}$의 코사인 유사도 $\frac{\vec{u}\cdot\vec{v}}{\vert\vert\vec{u}\vert\vert~\vert\vert\vec{v}\vert\vert}$를 계산한다. 
+
+	- 즉, 두 벡터 사이각의 코사인 값을 계산한다. 
+
+		![image](https://user-images.githubusercontent.com/38639633/109114883-9806c880-7781-11eb-9596-83098155fa3d.png){:.center}
+
+	- 코사인 유사도가 높을 수록, 해당 사용자가 과거 선호했던 상품들과 해당 상품이 유사함을 의미한다. 
+
+- 사용자에게 상품을 `추천`하는 단계
+
+	- 계산한 코사인 유사도가 높은 상품들을 추천한다.
+
+---
+
+이 같은 **내용 기반 추천시스템**은 다음 4가지의 `장점`을 갖는다.
+
+1. 다른 사용자의 `구매 기록`이 필요하지 않다.
+2. `독특한 취향의 사용자`에게도 추천이 가능하다
+3. `새 상품`에 대해서도 추천이 가능하다
+4. 추천의 `이유`를 제공할 수 있다.
+
+
+
+반대로 이 시스템은 `단점`도 존재한다.
+
+1. 상품에 대해 부가 정보가 없는 경우 사용하기 힘들다
+2. 구매기록이 없는 사용자에게는 사용할 수 없다.
+3. 과적합(overfitting)으로 지나치게 협소한 추천을 할 위험이 존재한다. 
+
+<br>
+
+## 협업 필터링 추천시스템
+
+다양한 Collaborative Filtering 방식 중 `user to user collaborative filtering`에 대해 알아보도록 하자
+
+### Collaborative Filtering
+
+사용자-사용자 협업 필터링은 다음의 세 단계로 이루어진다. 
+1. 추천의 대상 사용자를 $x$라고 한다. 
+2. 우선 $x$와 유사한 취향의 사용자를 찾는다. 
+3. 다음 단계로 유사한 취향의 사용자들이 선호하는 상품을 찾는다. 
+4. 마지막으로 이 상품을 $x$에게 추천한다. 
+
+	![image](https://user-images.githubusercontent.com/38639633/109128729-1a4bb880-7793-11eb-9ced-abcd5f74a180.png){:.center}
+
+
+
+user-user 협업 필터링의 핵심은 유사한 취향의 사용자를 찾는 것이다. 이때 `취향의 유사도`는 어떻게 계산할까?
+
+![image-20210225180129028](../../assets/img/boostcamp/image-20210225180129028.png){:.center}
+
+- "?"는 평점이 입력되지 않은 경우를 의미한다. 
+- 지수와 제니의 취향이 유사하고, 로제는 둘과는 다른 취향을 가진 것으로 보인다. 
+
+---
+
+이때 유사성은 `상관 계수(Correlation Coefficient)`를 통해 측정한다. 
+
+- 사용자 $x$의 상품 $s$에 대한 평점을 $r_{xs}$라고 한다. 
+- 사용자 $x$가 매긴 평균 평점을 $\overline{r_x}$라고 하자.
+- 사용자 $x$와 $y$가 공동 구매한 상품을 $S_{xy}$라고 하자. 
+- 이때, 사용자 $x$와 $y$의 취향 유사도는 아래 수식으로 계산한다.
+
+	$$
+	sim(x,y)=\frac{\sum_{s\in S_{xy}}(r_{xs}-\overline{r_x})(r_{ys}-\overline{r_y})}{\sqrt{\sum_{s\in S_{xy}}(r_{xs}-\overline{r_x})^2}\sqrt{\sum_{s\in S_{xy}}(r_{ys}-\overline{r_y})^2}}
+	$$
+- 즉, 통계에서의 상관계수를 사용해 취향의 유사도를 계산한다.
+
+
+
+예시를 들어보면
+
+![image](https://user-images.githubusercontent.com/38639633/109130063-a8746e80-7794-11eb-8adf-84907057ea25.png){:.center}
+
+- 지수와 제니의 취향의 유사도는 0.88이다. (계산은 직접 해보길 추천한다.)
+- 하지만 반대로 지수와 로제의 취향 유사도는 -0.94로 매우 상이함을 알 수 있다. 
+- 따라서 지수의 취향을 추정할 때는 제니의 취향을 참고하게 된다. 
+
+
+
+구체적으로 취향의 유사도를 가중치로 사용한 평점의 `가중 평균`을 통해 평점을 `추정`한다. 
+
+- 사용자 $x$의 상품 $s$에 대한 평점 $r_{xs}$를 추정한다고 가정하자
+- 앞서 설명한 상관계수를 이용하여 상품 $s$를 구매한 사용자 중 $x$와 취향이 `가장 유사한` $k$명의 사용자 $N(x;s)$를 뽑느다.
+- 이때, 평점 $r_{xs}$는 아래와 같이 추정할 수 있다.
+
+	$$
+	\hat{r}_{xs}=\frac{\sum_{y\in N(x;s)}sim(x,y)\cdot r_{ys}}{\sum_{y\in N(x;s)}sim(x,y)}
+	$$
+- 취향의 유사도를 가중치로 사용한 평점의 가중 평균을 계산한다.
+
+
+
+**마지막**으로 추정한 평점이 가장 높은 상품을 추천한다.
+
+- 추천의 대상 사용자를 $x$라고 가정하자
+- 앞서 설명한 방법을 통해, $x$가 아직 구매하지 않은 상품 각각에 대해 평점을 추정한다.
+- 추정한 평점이 가장 높은 상품들을 $x$에게 추천한다.
+
+****
+
+**Collaborative filtering의 장단점**
+`(+)` 상품에 대한 부가 정보가 없는 경우에도 사용할 수 있습니다
+
+`(−)` 충분한 수의 평점 데이터가 누적되어야 효과적입니다(Cold )
+`(−)` 새 상품, 새로운 사용자에 대한 추천이 불가능합니다
+`(−)` 독특한 취향의 사용자에게 추천이 어렵습니다
+
+<br>
+
+## 추천시스템의 평가
+
+추천 시스템의 평가는 전체 데이터를 Training과 Test 데이터로 분리하는 것부터 시작한다.
+
+![image](https://user-images.githubusercontent.com/38639633/109141104-b0d2a680-77a0-11eb-8390-a54a4280f638.png){:.center}
+
+- 여기서 평가 데이터는 주어지지 않은 상태로 가정하고, 이 평가 데이터의 평점을 추정한다.
+- 이때, 추정된 평가 데이터와 실제 데이터의 오차를 측정하여 평가를 실시한다. 
+
+
+
+**평가지표**
+
+오차를 측정하는 지표로는 MSE가 많이 사용된다. 
+- 평가 데이터 내의 평점들의 집합을 $T$라고 할때, MSE는 아래와 같이 게산된다.
+
+	$$
+	\frac{1}{\vert T\vert}\sum_{r_{xi}\in T}(r_{xi}-\hat{r}_{xi})^2
+	$$
+- 또한 평균 제곱근 오차(RMSE)도 많이 사용한다.
+
+	$$
+	\sqrt{\frac{1}{\vert T\vert}\sum_{r_{xi}\in T}(r_{xi}-\hat{r}_{xi})^2}
+	$$
+- 이 밖에도 다양한 지표가 사용되기도 한다.
+
+	- 추정한 평점으로 순위를 매긴 후, 실제 평점으로 매긴 순위와의 상관계수를 계산
+	- 추천한 상품 중 실제 구매로 이루어진 것의 비율 측정
+	- 추천의 순서 혹은 다양성까지 고려하는 지표 사용
+
+
 
 
 **Further Reading**
+
 - [http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf](http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf)
+- [http://infolab.stanford.edu/~ullman/mmds/ch9.pdf](http://infolab.stanford.edu/~ullman/mmds/ch9.pdf)
 
 <br>
+
