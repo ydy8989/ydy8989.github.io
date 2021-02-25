@@ -5,7 +5,7 @@ subtitle: 군집탐색(Girvan-Newman / Louvain) & CF basic
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
 categories: [BOOSTCAMP]
-tags: [boostcamp,reccomendation]
+tags: [boostcamp,recommendation]
 comments: true
 ---
 
