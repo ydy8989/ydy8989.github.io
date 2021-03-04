@@ -171,15 +171,19 @@ $$
 
   그래프 $$G$$가 위와 같이 주어졌을 때, Graph Laplacian $$(\Delta\phi)(v)$$를 계산해보면 다음과 같다. 먼저 $$v$$가 각 vertex 일 때의 term을 계산해보면 : 
 
-  - $$v_1$$ : $$\phi(v_1)-\phi(v_2)+\phi(v_1)-\phi(v_3) = 2\phi(v_1)-\phi(v_2)-\phi(v_3)$$
-
-  - $$v_2$$ : $$\phi(v_2)-\phi(v_1)+\phi(v_2)-\phi(v_3)+\phi(v_2)-\phi(v_4)$$ 
-
-    $$= 3\phi(v_2)-\phi(v_1)-\phi(v_3)-\phi(v_4)$$
-
-  - $$v_3$$ : $$\phi(v_3)-\phi(v_1)+\phi(v_3)-\phi(v_2) = 2\phi(v_3)-\phi(v_1)-\phi(v_2)$$
-
-  - $$v_4$$ : $$\phi(v_4)-\phi(v_2)$$
+  
+  $$
+  \begin{align}
+  v_1 &=\phi(v_1)-\phi(v_2)+\phi(v_1)-\phi(v_3)\\ 
+  &= 2\phi(v_1)-\phi(v_2)-\phi(v_3)\\
+  v_2&=\phi(v_2)-\phi(v_1)+\phi(v_2)-\phi(v_3)+\phi(v_2)-\phi(v_4)\\
+  &= 3\phi(v_2)-\phi(v_1)-\phi(v_3)-\phi(v_4)\\
+  v_3&=\phi(v_3)-\phi(v_1)+\phi(v_3)-\phi(v_2)\\ 
+  &= 2\phi(v_3)-\phi(v_1)-\phi(v_2)\\
+  v_4&=\phi(v_4)-\phi(v_2)
+  \end{align}
+  $$
+  
 
   와 같다. 이 결과를 모두 합한 $$(\Delta\phi)(v)$$는 다시 다음과 같이 정리할 수 있다.
 
