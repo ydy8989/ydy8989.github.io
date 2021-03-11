@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Community Detection and Collaborative Filtering
+title: GNN / Community Detection and Collaborative Filtering
 subtitle: 군집탐색(Girvan-Newman / Louvain) & CF basic
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
