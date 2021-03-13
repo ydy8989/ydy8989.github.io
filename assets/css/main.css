@@ -1292,6 +1292,7 @@ table td:last-child {
 
 
 .md-mathjax-midline {
+    font-size: 1rem;
     background: #fafafa;
 }
 .MathJax_Display{
