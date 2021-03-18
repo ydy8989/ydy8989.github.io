@@ -232,3 +232,67 @@ $$
 ## BLEU score
 
 자연어 생성 모델에서 생성 모델의 품질 및 결과를 평가하는 scoring 방식을 알아보자
+
+
+<br>
+
+### Precision an Recall
+
+일반적인 방식의 precision 이나 recall 방식을 사용하게되면 자연어 처리 task에서의 결과는 매우 안좋게 나타난다. 우선 precision과 recall에 대한 계산 방식과 예시를 살펴보자.
+
+**reference :** **Half** of **my heart is in** Havana **ooh na** na  
+**predicted :** **Half** as **my heart is in** Obama **ooh na**
+라는 예시로 precision과 recall을 구하면
+
+- `precision` = 7/9 = 78%
+	- Precision은 '정밀도'로, 위의 예시에서 생성한(예측한) 9개의 단어 중 7개를 맞춘 가짓수를 의미한다.
+	- $$\frac{\#(\text{correct words})}{\text{length_of_prediction}}$$
+- `recall` = 7/10 = 70%
+	- Recall은 '재현율'로, 맞춰야 '할' 것들 중 실제로 맞춘 경우의 수를 의미한다. 
+	- $$\frac{\#(\text{correct words})}{\text{length_of_reference}}$$
+- `F-measure` = 73.78%
+	- precision과 recall의 조화평균으로 구한다. 
+	- $$\frac{\text{precision}\times\text{recall}}{\frac{1}{2}(\text{precision}+\text{recall})}$$
+
+로 계산된다. 각 위치별 정확도로 계산이 되기 때문에 위와 같은 계산으로 진행된다.   
+
+**reference :** **Half** of **my heart is in** Havana **ooh na** na  
+**predicted(from model 1) :** **Half** as **my heart is in** Obama **ooh na**  
+**predicted(from model 2) :** **Havana na in heart my is Half ooh of na**  
+
+![image](https://user-images.githubusercontent.com/38639633/111407586-51b8df80-8717-11eb-8112-b2e526d04669.png){:.center}
+
+- 위와 같은 경우 순서가 다틀려도 word가 맞으면 100%가 나온다. 
+- 이러한 이슈를 보완하기 위해서 기계번역 task에서는 주로 성능평가 measure로써 BLEU score를 사용하게 된다.
+<br>
+
+### BLEU score
+
+**BiLingual Evaluation Understudy (BLEU)**
+- `N-gram overlap` between machine translation output and reference sentence
+    - 어느 정도의 phrase가 겹치는지도 체크한다. 
+- Compute `precision for n-grams of size one to four`
+    - recall은 무시하고, precision만을 고려한다. 
+    - recall의 경우, 문장에서 word가 어느정도 생략이 있더라도 충분히 맞는 번역이 될 수도 있고, 반대로 틀린 단어로 예측한 경우 완전한 오역으로 볼 수도 있기에, 예측한 것들 중에서 맞춘 것의 갯수인 precision만을 본다. 
+- Add `brevity penalty` (for too short translations)
+    - brevity penalty는 레퍼런스보다 더 짧은 문장을 생성할 때에는 그 비율만큼 우측 precision 비율을 낮춰 주겠다는 것이고, 그렇지 않을 때에는 1을 출력하여 그대로 나오게끔 해준다. 
+    - 또한, 이 brevity penalty는 recall의 최대값을 의미하기도 한다. 
+    - $$BLEU = min(1, \frac{\text{length_of_prediction}}{\text{length_of_reference}})(\Pi^4_{i=1}\text{precision_i})^{\frac{1}{4}}$$
+    - Typically compued over the entire corpus, not on single sentences
+    - four-gram에 대한 precision을 계산하기 때문에, 기하평균을 구할 때 4를 기준으로 계산한다.  
+    - 기하평균을 구하는 이유는 조화평균의 더 작은 값에 큰 가중치를 주어 치우치는 현상때문에 이를 사용하지 않고, 기하평균을 사용한다. 
+
+
+
+예시를 계산해보자.   
+**reference :** **Half** of **my heart is in** Havana **ooh na** na  
+**predicted(from model 1) :** **Half** as **my heart is in** Obama **ooh na**  
+**predicted(from model 2) :** **Havana na in heart my is Half ooh of na**  
+
+![image](https://user-images.githubusercontent.com/38639633/111416859-1246bf00-8728-11eb-89d2-1cd5e44cf5be.png){:.center}
+
+- 하나~ 4개의 연속된 단어들의 위치에 따라 얼마나 맞췄는지를 계산하여 점수를 계산하게 된다. 
+- 주의) 순서는 상관없고, predict한 문장에서의 N-gram이 ground truth 문장에 존재 하는지 여부를 확인하는 작업이다. 
+
+
+
