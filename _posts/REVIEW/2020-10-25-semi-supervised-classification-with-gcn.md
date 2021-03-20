@@ -21,8 +21,7 @@ comments: true
 
 # 1. CNN vs GCN
 
-![image](https://user-images.githubusercontent.com/38639633/111862492-04e43b80-8999-11eb-8207-69408fd5ccad.png)
-{: width="80%"}{: .center}
+![image](https://user-images.githubusercontent.com/38639633/111862492-04e43b80-8999-11eb-8207-69408fd5ccad.png){: width="80%"}{: .center}
 
 Convolutional Neural Network는 이미 너무나도 잘 알려진 방식의 학습 방법이다. Convolution이라는 이름에서 알 수 있듯이 합성곱 연산을 통해 각 레이어마다 weight와 filter의 값들을 스스로 업데이트하며 학습한다. 이는 쉽게말하면 ***<u>픽셀 값</u>***을 업데이트 함을 의미한다. 
 
