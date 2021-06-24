@@ -69,7 +69,7 @@ subtitle: Machine learning researcher,<br/>focused on NLP
 
 ---
 
-#### Machine Learning Engineer
+### Machine Learning Engineer
 
 > **`Hbee. Hwaseong-si, Gyeonggi-do`**     
 > `(2019.06.17 - 2020.03.13)`  
@@ -79,7 +79,8 @@ Worked on various machine learning related tasks, including but not limited to:
   - Semi-supervised GAN with image data
   <br/>
 
-#### Research Intern
+### Research Intern
+
 > **`포항공과대학교 인공지능연구원 PIAI(구 PIRL), Pohang`**  
 > `(2018.11.01 - 2018.12.31)`  
 Worked on various machine learning related tasks, including but not limited to:
