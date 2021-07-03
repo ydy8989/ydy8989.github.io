@@ -29,7 +29,7 @@ subtitle: Machine learning researcher,<br/>focused on NLP
 <br/>
 
 ## Education🎓
-
+ 
 ---
 
 > - I received the ***M.S. degrees***, in **Department of Mathematics** from **Kwangwoon University**, Seoul, Korea, in 2017.([Go to thesis](http://www.riss.kr/link?id=T14494628))
