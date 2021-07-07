@@ -9,7 +9,7 @@ subtitle: Machine learning researcher,<br/>focused on NLP
 
 ---
 
-> HI! I'm Doyeon Yoon, who likes math and is studying artificial intelligence. I mainly studied combinatorics in math and half bandwidth in graph structures.
+> HI! I'm Doyeon Yoon, who likes math and is studying artificial intelligence. I mainly studied combinatorics in math and anti-bandwidth in graph structures.
 >
 > I've been interested in a variety of fields, including finance, healthcare, and I can understand the key considerations in those fields.
 >
