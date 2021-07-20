@@ -45,6 +45,12 @@ body {
   {% endif %}
 
 }
+/*#write {*/
+/*    max-width: 860px;*/
+/*  	margin: 0 auto;*/
+/*  	padding: 30px;*/
+/*    padding-bottom: 100px;*/
+/*}*/
 .container[role=main] {
   margin-bottom:50px;
   flex: 1 0 auto;
@@ -55,57 +61,272 @@ body {
     margin: auto;
 }
 
-p {
-  line-height: 1.5;
-  margin: 1.875rem 0;
+a {
+    color: #4993de;
+            /*#4183c4;하늘색 링크 색 */
 }
-p a {
-  /* text-decoration: underline */
-  color: #0085A1; /*#청록색*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    line-height: 1.1;
+    /*cursor: text;*/
 }
-h1,h2,h3,h4,h5,h6 {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 800;
-  line-height: 1.1;
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
 }
 h1 {
-  font-size: 2.25rem;
+    font-size: 2.25em;
+    line-height: 1.2;
+    /*border-bottom: 1px solid #eee;*/
 }
 h2 {
-  font-size: 1.875rem;
+    font-size: 1.75em;
+    line-height: 1.225;
+    /*border-bottom: 1px solid #eee;*/
 }
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
 h3 {
-  font-size: 1.5rem;
+    font-size: 1.5em;
+    line-height: 1.43;
 }
 h4 {
-  font-size: 1.125rem;
+    font-size: 1.25em;
 }
-/* 링크 색 */
-a {
-  color: #d65454;
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
 }
 /* hover : 마우스 올렸을때 */
 /* visited : 방문한 뒤 링크색 */
 /* focus : 드래그 블럭지정했을 때 색 */
 a:hover,
 a:focus {
-  color: #0085A1;
+  color: #890000;
 }
 
-/* 인용구 블럭관련*/
+p,
+/*blockquote,*/
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
 blockquote {
-
-  border-left: 7px solid #faa2a2;
-  color: #615f5f;
-  padding: .5rem 1rem;
-  margin: .8rem 0rem;
-  quotes: "\201C""\201D""\2018""\2019";
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table th:first-child,
+table td:first-child {
+    margin-top: 0;
+}
+table th:last-child,
+table td:last-child {
+    margin-bottom: 0;
 }
 
-blockquote p:first-child {
-  margin-top: 0;
-  margin-bottom: 0;
-}
+/*.CodeMirror-lines {*/
+/*    padding-left: 4px;*/
+/*}*/
+
+/*.code-tooltip {*/
+/*    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);*/
+/*    border-top: 1px solid #eef2f2;*/
+/*}*/
+
+/*.md-fences,*/
+/*code,*/
+/*tt {*/
+/*    border: 1px solid #e7eaed;*/
+/*    background-color: #f8f8f8;*/
+/*    border-radius: 3px;*/
+/*    padding: 0;*/
+/*    padding: 2px 4px 0px 4px;*/
+/*    font-size: 0.9em;*/
+/*}*/
+
+/*code {*/
+/*    background-color: #f3f4f4;*/
+/*    padding: 0 2px 0 2px;*/
+/*}*/
+
+/*.md-fences {*/
+/*    margin-bottom: 15px;*/
+/*    margin-top: 15px;*/
+/*    padding-top: 8px;*/
+/*    padding-bottom: 6px;*/
+/*}*/
+
+
+/*.md-task-list-item > input {*/
+/*  margin-left: -1.3em;*/
+/*}*/
+/*-----------아래는 기존 테마, 위는 타이포라 github 테마 --------*/
+/*p {*/
+/*  line-height: 1.5;*/
+/*  margin: 1.875rem 0;*/
+/*}*/
+/*p a {*/
+/*  !* text-decoration: underline *!*/
+/*  color: #0085A1; !*#청록색*!*/
+/*}*/
+/*h1,h2,h3,h4,h5,h6 {*/
+/*  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+/*  font-weight: 800;*/
+/*  line-height: 1.1;*/
+/*}*/
+/*h1 {*/
+/*  font-size: 2.25rem;*/
+/*}*/
+/*h2 {*/
+/*  font-size: 1.875rem;*/
+/*}*/
+/*h3 {*/
+/*  font-size: 1.5rem;*/
+/*}*/
+/*h4 {*/
+/*  font-size: 1.125rem;*/
+/*}*/
+/*!* 링크 색 *!*/
+/*a {*/
+/*  color: #d65454;*/
+/*}*/
+/*!* hover : 마우스 올렸을때 *!*/
+/*!* visited : 방문한 뒤 링크색 *!*/
+/*!* focus : 드래그 블럭지정했을 때 색 *!*/
+/*a:hover,*/
+/*a:focus {*/
+/*  color: #0085A1;*/
+/*}*/
+
+/*!* 인용구 블럭관련*!*/
+/*blockquote {*/
+
+/*  border-left: 7px solid #faa2a2;*/
+/*  color: #615f5f;*/
+/*  padding: .5rem 1rem;*/
+/*  margin: .8rem 0rem;*/
+/*  quotes: "\201C""\201D""\2018""\2019";*/
+/*}*/
+
+/*blockquote p:first-child {*/
+/*  margin-top: 0;*/
+/*  margin-bottom: 0;*/
+/*}*/
 
 hr.small {
   max-width: 6.25rem;
@@ -505,7 +726,8 @@ footer .footer-custom-content {
 .post-preview a:focus,
 .post-preview a:hover {
   text-decoration: none;
-  color: {{ site.hover-col | default: "#0085A1" }};
+  color: {{ site.hover-col | default: "#890000" }};
+/*0085A1*/
 }
 
 .post-preview .post-title {
@@ -909,7 +1131,7 @@ table tr td :last-child {
 
 code {
   padding: 0.125rem 0.25rem;
-  color: #c7254e;
+  color: #2581c7;
   background-color: #f9f2f4;
   border-radius: 0.25rem;
 }
@@ -1291,13 +1513,21 @@ table td:last-child {
 
 
 
+/*.md-mathjax-midline {*/
+/*    font-size: 1em;*/
+/*    background: #fafafa;*/
+/*}*/
+/*.MathJax_Display{*/
+/*  font-size: 1rem;*/
+}
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
 .md-mathjax-midline {
-    font-size: 1rem;
     background: #fafafa;
 }
-.MathJax_Display{
-  font-size: 1rem;
-}
+
 #write>h3.md-focus:before{
 	left: -1.5625rem;
 	top: .375rem;
