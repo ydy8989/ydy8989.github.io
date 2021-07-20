@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Neural Machine Translation by Jointly Learning to Align and Translate 논문 리뷰
+title: REVIEW / Neural Machine Translation by Jointly Learning to Align and Translate
 subtitle: Attention의 등장
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
