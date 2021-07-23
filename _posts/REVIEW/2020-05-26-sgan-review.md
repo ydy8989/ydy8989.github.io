@@ -23,7 +23,7 @@ comments: true
 
 또한, 기본적인 구조는 CatGAN과 비슷하지만, 딱 한가지! objective function이 다른데 그 이유는 개념의 출발이 다르기 때문이다. CatGAN역시 추후에 다뤄볼 것이다.
 
-<br/>
+<br/> 
 
 ### Paper 내용
 
