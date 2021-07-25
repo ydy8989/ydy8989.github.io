@@ -77,7 +77,7 @@ $$
 
 반대로 D의 unsupervised loss의 경우에는 가짜가 아니라고 분류하는 것과, G에서 생성한 데이터를 가짜라고 분류해야하기 때문에 아래와 같이 cost function을 정의할 수 있다. 
 
-
+ 
 $$
 L_{D_{unsupervised}} = -\mathbb{E}_{x~\sim~p_{data}}log\left[1-p_{model}(y=k+1|x)\right]-\mathbb{E}_{x~\sim~G}log\left[p_{model}(y=k+1|x)\right]
 $$
