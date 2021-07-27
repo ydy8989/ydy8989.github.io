@@ -31,6 +31,7 @@ body {
 }
 */
 body {
+
   font-family: 'Open Sans', 'Nanum Gothic Coding', Helvetica, Arial, sans-serif;
   font-size: 18px;
   color: #404040;
@@ -42,9 +43,7 @@ body {
   {% if site.page-img %}
   background-image: url({{ site.page-img | relative_url }});
   background-attachment: fixed;
-  {% endif %}
-
-}
+  {% endif %}}
 /*#write {*/
 /*    max-width: 860px;*/
 /*  	margin: 0 auto;*/
