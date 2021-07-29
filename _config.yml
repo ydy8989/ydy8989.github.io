@@ -29,7 +29,6 @@ baseurl: ""
 # List of links in the navigation bar
 navbar-links:
   Category:
-    - REVIEW: "/category/review"
     - NLP : "/category/nlp"
     - BOOSTCAMP: "/category/boostcamp"
     - GNN : "/category/gnn"
