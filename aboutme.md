@@ -54,8 +54,7 @@ subtitle: Machine learning researcher,<br/>focused on NLP
 ### 부스트캠프 AI Tech
 
 > **`네이버 커넥트재단`**  
-> `(2021.01.12 - 2021.06.22)`    
-
+> `(2021.01.12 - 2021.06.22)`
 - Participated in deep learning training, conducted 20 weeks of training and 4 contest-type project hands-on practice
 	- [TIL repo](https://github.com/ydy8989/boostcamp)
 	- [CV]Mask Image Classification([Go to code](https://github.com/bcaitech1/p1-img-ydy8989))
