@@ -146,3 +146,22 @@ Bi-encoder의 단점은 context와 candidate가 만나는 지점이 마지막 sc
 	- Ubuntu V2 corpus
 - Article search in IR : 주어진 문장이 등장한 article 찾기(객관식 10000개)
 	- Wikipedia Article Search
+
+![image](https://user-images.githubusercontent.com/38639633/129482757-e45bf1ee-dc8f-450e-82f3-6c9a24d22140.png)
+
+
+
+실험한 결과는 아래와 같다. 
+
+![image](https://user-images.githubusercontent.com/38639633/129482774-c146b071-98fe-48cb-b355-421937b35bbf.png)
+
+- 구조적으로 쉽게 예상할 수 있듯이, Poly-encoder는 Bi-encoder보다는 좋고 Cross-encoder보다는 좋지 못한 성능을 기록했다. 
+- 또한, batch 내의 sampling을 negative sampling 하여 학습한다고 앞서 언급했는데, 이러한 이유로 batch size가 클 수록 성능이 향상되었다고 한다. 
+
+
+
+![image](https://user-images.githubusercontent.com/38639633/129482902-af7322d8-28aa-4907-8c7c-5aa9c298fbf0.png)
+
+- 위 표는 각 환경에서 inference 속도를 측정한 결과이다. 
+- Bi-encoder에는 못 미치지만 충분히 빠른 속도를 보이는 것을 확인할 수 있다. (~~Cross-encoder는 답도없다~~)
+
