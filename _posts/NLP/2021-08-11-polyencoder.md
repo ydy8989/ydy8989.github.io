@@ -12,6 +12,10 @@ ICLR 2020에서  Facebook AI Research 팀은 발표한 `Poly-encoders` 구조는
 
 최근 몇 년간의 연구에서 Transformers 구조는 Sequence간의 embedding 방식을 획기적으로 바꾸었으며, 내부적으로 '알아서' 임베딩 되도록 학습된다. 이로 인해 두 Sequence들 간의 비교 task는 매우 쉬워졌으며 다양한 방식이 제안되고 있다. 저자들은 그 중 일반적으로 사용되는 Cross-encoder 방식과 Bi-encoder 방식을 섞은 Poly-encoder를 제안하였다. 
 
+**Paper : [Poly-encoders: Transformer Architectures and Pre-training Strategies for Fast and Accurate Multi-sentence Scoring](https://arxiv.org/abs/1905.01969)**
+
+> 이 글은 [이주홍님의 블로그](https://roomylee.github.io/poly-encoder/)와 [스캐터랩 세미나 발표](https://speakerdeck.com/scatterlab/poly-encoders-architectures-and-pre-training-strategies-for-fast-and-accurate-multi-sentence-scoring?slide=5)를 참고하여 작성되었습니다.
+
 <br/>
 
 ## Overview
