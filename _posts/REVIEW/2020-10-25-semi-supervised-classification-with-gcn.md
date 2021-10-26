@@ -1,6 +1,6 @@
 ---
 layout: post
-title: REVIEW / Semi-Supervised Classification with Graph Convolutional Networks(GCN)(1)
+title: REVIEW) GCN / Semi-Supervised Classification with Graph Convolutional Networks(GCN)(1)
 subtitle: GCN을 알아보자
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]

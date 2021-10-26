@@ -1,6 +1,6 @@
 ---
 layout: post
-title: REVIEW / Poly-encoders - Transformer Architectures and Pre-training Strategies for Fast and Accurate Multi-sentence Scoring
+title: REVIEW) Poly-encoders / Transformer Architectures and Pre-training Strategies for Fast and Accurate Multi-sentence Scoring
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
 categories: [NLP]

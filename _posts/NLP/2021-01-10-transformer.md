@@ -1,6 +1,6 @@
 ---
 layout: post
-title: REVIEW / Attention is all you need 
+title: REVIEW) Transformer / Attention is all you need 
 subtitle: transformer, bidirectional RNN은 필요없다.
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]

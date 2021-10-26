@@ -1,6 +1,6 @@
 ---
 layout: post
-title: REVIEW / SGAN / Semi-supervised learning with Generative Adversarial networks 
+title: REVIEW) SGAN / Semi-supervised learning with Generative Adversarial networks 
 subtitle: 준지도 학습, 그리고 분류
 gh-repo: ydy8989/ydy8989.github.io
 gh-badge: [follow]
