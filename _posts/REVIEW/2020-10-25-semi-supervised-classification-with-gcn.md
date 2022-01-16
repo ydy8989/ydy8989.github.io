@@ -116,7 +116,7 @@ $$
 
 ***Graph signal***
 
-![Vincent Gripon](https://www.vincent-gripon.com/330---Fun%20stuff---En%20vrac/000---Graph%20Signal%20Processing---Traitement%20du%20signal%20sur%20graphes/Capture.png){: width="40%"}{: .center}
+![image](https://user-images.githubusercontent.com/38639633/149653036-6e30fbd5-0040-4614-bc08-49191baecb3d.png){: width="40%"}{: .center}
 
 > 여기서 말하는 graph signal이란 그래프의 vertex 하나에 담겨있는 feature를 의미한다.
 
