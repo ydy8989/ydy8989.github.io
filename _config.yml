@@ -37,9 +37,9 @@ navbar-links:
   GitHub: "https://github.com/ydy8989"
   About Me: "aboutme"
 #  Search: "https://ydy8989.github.io/search"
-  Portfolio | CV: #"resume/Doyeon_Yoon_resume.pdf"
+  Portfolio | RESUME: #"resume/Doyeon_Yoon_resume.pdf"
     - PORTFOLIO: "/port_cv/portfolio/Doyeon_Yoon_Portfolio.pdf"
-    - CV: "/port_cv/cv/Doyeon_Yoon_CV.pdf"
+    - RESUME: "/port_cv/resume/Doyeon_Yoon_resume.pdf"
 #  Tags: "tags"
 
 
