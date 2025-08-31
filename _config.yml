@@ -38,7 +38,7 @@ navbar-links:
   About Me: "aboutme"
 #  Search: "https://ydy8989.github.io/search"
   Portfolio | RESUME: #"resume/Doyeon_Yoon_resume.pdf"
-    - PORTFOLIO: "/port_cv/portfolio/Doyeon_Yoon_Portfolio.pdf"
+    - PORTFOLIO: "https://yooniversai.github.io/projects/" #"/port_cv/portfolio/Doyeon_Yoon_Portfolio.pdf"
     - RESUME: "/port_cv/resume/Doyeon_Yoon_resume.pdf"
 #  Tags: "tags"
 
@@ -214,5 +214,4 @@ metadata:
 
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
 disqus_short_name: 'ydy8989-github-io' # leave blank if you don't want disqus
