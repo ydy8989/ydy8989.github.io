@@ -1,9 +1,13 @@
-# project
-_site
-.sass-cache
-.vagrant
-
-# general
+# Astro
+dist/
+node_modules/
+.astro/
+# Jekyll (구 빌드 산출물)
+_site/
+.jekyll-cache/
+.sass-cache/
+# OS / env
 .DS_Store
-Thumbs.db
-ehthumbs.db
+*.log
+.env
+.env.production

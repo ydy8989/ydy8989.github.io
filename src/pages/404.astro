@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404 — do.yooniverse">
+  <div class="py-10">
+    <p class="font-mono text-sm mb-4" style="color: var(--accent)">404</p>
+
+    <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+      어텐션이 이 페이지에 걸리지 않았습니다
+    </h1>
+
+    <p class="text-lg leading-relaxed mb-2" style="color: var(--fg-muted)">
+      찾으시는 주소가 없네요. 오타이거나, 제가 옮겼거나, 아직 안 썼거나.
+    </p>
+
+    <!-- 아는 사람만 웃으라고 놔둔 줄. -->
+    <p class="font-mono text-xs mb-10" style="color: var(--fg-muted); opacity: .7">
+      attention_weight = 0.00 &nbsp;·&nbsp; 마스킹된 토큰일지도 모릅니다
+    </p>
+
+    <div class="flex flex-wrap gap-3 text-sm">
+      <a
+        href="/"
+        class="px-4 py-2 rounded-lg border transition-colors hover:border-current"
+        style="border-color: var(--border)">← 홈으로</a>
+      <a
+        href="/blog"
+        class="px-4 py-2 rounded-lg border transition-colors hover:border-current"
+        style="border-color: var(--border)">글 목록</a>
+    </div>
+  </div>
+</Base>

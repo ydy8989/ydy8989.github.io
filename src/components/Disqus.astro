@@ -1,0 +1,64 @@
+---
+/**
+ * Disqus 댓글. 식별자(PAGE_IDENTIFIER)와 URL 을 원래 글의 절대 URL로 고정해
+ * Jekyll 시절 달린 댓글 스레드를 그대로 이어받는다.
+ *
+ * beautiful-jekyll 원본이 identifier 로 `page.url | absolute_url` 을 썼으므로
+ * 여기서도 같은 값(disqusId)을 넣어야 스레드가 끊기지 않는다.
+ */
+interface Props {
+  identifier: string; // 원래 글의 절대 URL
+  title: string;
+}
+const { identifier, title } = Astro.props;
+const SHORTNAME = 'ydy8989-github-io';
+---
+
+<section class="disqus-wrap" aria-label="댓글">
+  <div id="disqus_thread"></div>
+  <noscript>
+    댓글을 보려면 JavaScript를 활성화해 주세요.
+  </noscript>
+</section>
+
+<script
+  is:inline
+  define:vars={{ identifier, title, url: identifier, shortname: SHORTNAME }}
+>
+  window.disqus_config = function () {
+    this.page.identifier = identifier;
+    this.page.url = url;
+    this.page.title = title;
+  };
+
+  // 뷰포트에 들어올 때만 로드해서 초기 렌더를 가볍게 유지한다.
+  const mount = () => {
+    if (window.__disqusLoaded) return;
+    window.__disqusLoaded = true;
+    const s = document.createElement('script');
+    s.src = `https://${shortname}.disqus.com/embed.js`;
+    s.setAttribute('data-timestamp', String(Date.now()));
+    document.head.appendChild(s);
+  };
+
+  const thread = document.getElementById('disqus_thread');
+  if ('IntersectionObserver' in window && thread) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        mount();
+        io.disconnect();
+      }
+    }, { rootMargin: '400px' });
+    io.observe(thread);
+  } else {
+    mount();
+  }
+</script>
+
+<style>
+  .disqus-wrap {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+</style>

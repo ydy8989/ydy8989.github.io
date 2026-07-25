@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* 제목용 세리프. 라틴 세리프를 먼저 두고 한글은 명조로 떨어뜨린다. */
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    AppleMyungjo, Batang, serif;
+}
+
+/* 디지털 가든 — 차가운 회색 대신 따뜻한 종이와 초록 */
+:root {
+  --bg: #fdfbf6;
+  --bg-subtle: #f5f0e6;
+  --fg: #2b2721;
+  --fg-muted: #6f6759;
+  --border: #e7dfd0;
+  --accent: #4a7a52;
+
+  --code-bg: #f0e9db;
+  --code-fg: #a8452f;
+  --code-border: #ddd2be;
+
+  /* 성장 단계 색 — 씨앗에서 여문 나무로 갈수록 진해진다 */
+  --stage-seedling: #a08a4a;
+  --stage-budding: #6a9450;
+  --stage-evergreen: #3f7048;
+}
+
+.dark {
+  --bg: #14130f;
+  --bg-subtle: #1d1b15;
+  --fg: #eae4d6;
+  --fg-muted: #9b9281;
+  --border: #302c22;
+  --accent: #8fbc7f;
+
+  --code-bg: #2a261d;
+  --code-fg: #e39b7c;
+  --code-border: #3b352a;
+
+  --stage-seedling: #cbb46b;
+  --stage-budding: #9dc47c;
+  --stage-evergreen: #7fb082;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}

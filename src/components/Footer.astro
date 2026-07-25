@@ -1,0 +1,24 @@
+---
+const year = new Date().getFullYear();
+const links = [
+  { label: 'GitHub', href: 'https://github.com/ydy8989' },
+];
+---
+
+<footer class="border-t" style="border-color: var(--border)">
+  <div
+    class="max-w-3xl mx-auto px-6 py-8 flex flex-wrap gap-4 justify-between text-sm"
+    style="color: var(--fg-muted)"
+  >
+    <span>© {year} ydy8989</span>
+    <div class="flex gap-4">
+      {
+        links.map((s) => (
+          <a href={s.href} class="hover:underline underline-offset-4">
+            {s.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>

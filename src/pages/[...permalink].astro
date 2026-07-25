@@ -1,0 +1,127 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Disqus from '../components/Disqus.astro';
+import 'katex/dist/katex.min.css';
+
+// Jekyll permalink(`/YYYY-MM-DD-slug/`) 재현. slug 필드를 그대로 경로로 쓴다.
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { permalink: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+const date = fmt(post.data.pubDate);
+---
+
+<Base title={`${post.data.title} — ydy8989`} description={post.data.description}>
+  <article>
+    <header class="mb-10 pb-8 border-b" style="border-color: var(--border)">
+      <div class="flex items-center gap-3 flex-wrap text-sm font-mono" style="color: var(--fg-muted)">
+        <time>{date}</time>
+        {post.data.categories.map((c) => <span>· {c}</span>)}
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mt-3 mb-4 leading-tight">
+        {post.data.title}
+      </h1>
+      {
+        post.data.description !== post.data.title && (
+          <p class="text-lg leading-relaxed" style="color: var(--fg-muted)">
+            {post.data.description}
+          </p>
+        )
+      }
+    </header>
+
+    {
+      headings.length > 2 && (
+        <nav class="mb-10 p-5 rounded-xl text-sm" style="background: var(--bg-subtle)" aria-label="목차">
+          <p class="font-semibold mb-3 text-xs uppercase tracking-widest" style="color: var(--fg-muted)">
+            목차
+          </p>
+          <ul class="space-y-1.5">
+            {headings
+              .filter((h) => h.depth <= 3)
+              .map((h) => (
+                <li style={`padding-left: ${(h.depth - 1) * 12}px`}>
+                  <a href={`#${h.slug}`} class="hover:underline underline-offset-4">
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <div class="prose-custom">
+      <Content />
+    </div>
+  </article>
+
+  <a href="/" class="inline-block mt-16 text-sm hover:underline underline-offset-4" style="color: var(--accent)">
+    ← 목록으로
+  </a>
+
+  <Disqus identifier={post.data.disqusId} title={post.data.title} />
+</Base>
+
+<style is:global>
+  .prose-custom { line-height: 1.8; }
+  .prose-custom h1, .prose-custom h2, .prose-custom h3 {
+    font-weight: 700; letter-spacing: -0.01em; margin: 2.5rem 0 1rem; scroll-margin-top: 5rem;
+  }
+  .prose-custom h1 { font-size: 1.6rem; }
+  .prose-custom h2 { font-size: 1.35rem; }
+  .prose-custom h3 { font-size: 1.15rem; }
+  .prose-custom p { margin: 1.15rem 0; }
+  .prose-custom a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-custom ul, .prose-custom ol { margin: 1.15rem 0; padding-left: 1.4rem; }
+  .prose-custom ul { list-style: disc; }
+  .prose-custom ol { list-style: decimal; }
+  .prose-custom ol ol { list-style: lower-alpha; }
+  .prose-custom ol ol ol { list-style: lower-roman; }
+  .prose-custom ul ul { list-style: circle; }
+  .prose-custom li { margin: 0.4rem 0; }
+  .prose-custom blockquote {
+    border-left: 3px solid var(--accent); padding-left: 1rem;
+    color: var(--fg-muted); margin: 1.5rem 0;
+  }
+  .prose-custom pre { padding: 1rem 1.15rem; border-radius: 0.6rem; overflow-x: auto; margin: 1.5rem 0; font-size: 0.875rem; }
+  .prose-custom :not(pre) > code {
+    background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--code-border);
+    padding: 0.1em 0.38em; border-radius: 0.3rem; font-size: 0.85em;
+    font-family: var(--font-mono); font-weight: 500; white-space: nowrap;
+  }
+  .prose-custom h1 > code, .prose-custom h2 > code, .prose-custom h3 > code, .prose-custom a > code { color: inherit; }
+  .prose-custom table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; display: block; overflow-x: auto; }
+  .prose-custom th, .prose-custom td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; }
+
+  /* 수식 (kramdown $$...$$ 인라인 혼용) */
+  .prose-custom .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.5rem 0; }
+  .prose-custom .katex { font-size: 1.05em; }
+  .prose-custom .katex-display > .katex { font-size: 1.15em; }
+
+  /* 이미지 + kramdown IAL(.center / w-xx) */
+  .prose-custom img { border-radius: 0.6rem; margin: 1.75rem 0; max-width: 100%; height: auto; }
+  .prose-custom img.center { display: block; margin-left: auto; margin-right: auto; }
+  .prose-custom img.left  { display: block; margin-right: auto; }
+  .prose-custom img.right { display: block; margin-left: auto; }
+  .prose-custom img[class*="w-"] { width: var(--img-w, 100%); }
+  .prose-custom img.w-25{--img-w:25%} .prose-custom img.w-30{--img-w:30%}
+  .prose-custom img.w-35{--img-w:35%} .prose-custom img.w-40{--img-w:40%}
+  .prose-custom img.w-45{--img-w:45%} .prose-custom img.w-50{--img-w:50%}
+  .prose-custom img.w-55{--img-w:55%} .prose-custom img.w-60{--img-w:60%}
+  .prose-custom img.w-65{--img-w:65%} .prose-custom img.w-70{--img-w:70%}
+  .prose-custom img.w-75{--img-w:75%} .prose-custom img.w-80{--img-w:80%}
+  .prose-custom img.w-85{--img-w:85%} .prose-custom img.w-90{--img-w:90%}
+  .prose-custom img.w-95{--img-w:95%} .prose-custom img.w-100{--img-w:100%}
+  @media (max-width: 640px) {
+    .prose-custom img[class*="w-"] { width: 100%; }
+  }
+</style>

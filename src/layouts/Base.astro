@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'ML 엔지니어 윤도연의 블로그와 포트폴리오' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      // FOUC 방지: 렌더 전에 테마 결정
+      const t = localStorage.getItem('theme') ??
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', t === 'dark');
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 w-full max-w-3xl mx-auto px-6 py-12 sm:py-20">
+      <slot />
+    </main>
+    <Footer />
+
+    <script is:inline>
+      // 콘솔을 열어본 사람에게만 보이는 인사.
+      console.log(
+        '%c do.yooniverse ',
+        'background:#3d5afe;color:#fff;border-radius:3px;padding:2px 6px;font-weight:600',
+        '\n소스가 궁금하셨군요. 반갑습니다.\n' +
+          'github.com/do-yooniverse/do-yooniverse.github.io\n\n' +
+          '글 목록의 밝기는 TF-IDF 벡터로 계산한 어텐션 가중치입니다.\n' +
+          '학습된 Q, K 는 아니지만 softmax 는 진짜입니다.'
+      );
+    </script>
+  </body>
+</html>
