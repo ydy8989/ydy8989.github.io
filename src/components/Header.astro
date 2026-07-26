@@ -1,8 +1,10 @@
 ---
 const nav = [
-  { href: '/', label: 'Posts' },
+  { href: '/about/', label: 'About' },
 ];
 const path = Astro.url.pathname;
+const isActive = (item: { href: string; exact?: boolean }) =>
+  item.exact ? path === '/' : path.startsWith(item.href);
 ---
 
 <header
@@ -20,7 +22,7 @@ const path = Astro.url.pathname;
           <a
             href={item.href}
             class="px-3 py-1.5 rounded-md transition-colors hover:opacity-100"
-            style={`opacity: ${path.startsWith(item.href) ? '1' : '0.6'}`}
+            style={`opacity: ${isActive(item) ? '1' : '0.6'}`}
           >
             {item.label}
           </a>

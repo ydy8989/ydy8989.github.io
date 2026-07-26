@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+const counts = new Map<string, { label: string; count: number }>();
+for (const post of posts) {
+  for (const cat of post.data.categories) {
+    const key = cat.toLowerCase();
+    if (!counts.has(key)) counts.set(key, { label: cat, count: 0 });
+    counts.get(key)!.count++;
+  }
+}
+
+const categories = [...counts.entries()]
+  .map(([key, v]) => ({ key, ...v }))
+  .sort((a, b) => b.count - a.count);
+---
+
+<Base title="Categories — ydy8989" description="카테고리별 글 목록">
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Categories</h1>
+  <p class="mb-10" style="color: var(--fg-muted)">주제별로 모아 봅니다</p>
+
+  <ul class="space-y-2">
+    {
+      categories.map((c) => (
+        <li>
+          <a
+            href={`/category/${c.key}/`}
+            class="group flex items-baseline justify-between py-3 border-b"
+            style="border-color: var(--border)"
+          >
+            <span class="font-medium group-hover:underline underline-offset-4 decoration-1">
+              {c.label}
+            </span>
+            <span class="text-sm font-mono tabular-nums" style="color: var(--fg-muted)">
+              {c.count}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

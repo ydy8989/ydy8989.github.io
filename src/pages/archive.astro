@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+// 옛 블로그 아카이브. 네비에는 노출하지 않지만 URL·글은 그대로 보존한다.
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Base title="Archive — ydy8989" description="지난 머신러닝 학습 기록">
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Archive</h1>
+  <p class="mb-10" style="color: var(--fg-muted)">지난 머신러닝 학습 기록 · 글 {posts.length}편</p>
+
+  <div class="divide-y" style="border-color: var(--border)">
+    {
+      posts.map((post) => (
+        <a href={`/${post.data.slug}/`} class="group block py-4">
+          <div class="flex items-baseline gap-4">
+            <time class="text-sm font-mono shrink-0 tabular-nums" style="color: var(--fg-muted)">
+              {fmt(post.data.pubDate)}
+            </time>
+            <span class="font-medium group-hover:underline underline-offset-4 decoration-1">
+              {post.data.title}
+            </span>
+          </div>
+          <p class="text-sm mt-1.5 line-clamp-2" style="color: var(--fg-muted)">
+            {post.data.description}
+          </p>
+        </a>
+      ))
+    }
+  </div>
+</Base>

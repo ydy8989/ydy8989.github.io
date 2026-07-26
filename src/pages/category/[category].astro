@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+// Jekyll 시절 URL(`/category/nlp/` 등, 소문자)을 그대로 재현한다.
+// frontmatter의 categories 는 대문자(NLP/BOOSTCAMP/…)이므로 소문자로 낮춰 매칭.
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const byCategory = new Map<string, { label: string; posts: typeof posts }>();
+
+  for (const post of posts) {
+    for (const cat of post.data.categories) {
+      const key = cat.toLowerCase();
+      if (!byCategory.has(key)) byCategory.set(key, { label: cat, posts: [] });
+      byCategory.get(key)!.posts.push(post);
+    }
+  }
+
+  return [...byCategory.entries()].map(([key, { label, posts }]) => ({
+    params: { category: key },
+    props: {
+      label,
+      posts: posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()),
+    },
+  }));
+}
+
+const { label, posts } = Astro.props;
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Base title={`${label} — ydy8989`} description={`${label} 카테고리 글 ${posts.length}편`}>
+  <div class="flex items-baseline gap-3 mb-2">
+    <a href="/category/" class="text-sm hover:underline underline-offset-4" style="color: var(--fg-muted)">
+      Categories
+    </a>
+    <span style="color: var(--fg-muted)">/</span>
+    <h1 class="text-3xl font-bold tracking-tight">{label}</h1>
+  </div>
+  <p class="mb-10" style="color: var(--fg-muted)">글 {posts.length}편</p>
+
+  <div class="divide-y" style="border-color: var(--border)">
+    {
+      posts.map((post) => (
+        <a href={`/${post.data.slug}/`} class="group block py-4">
+          <div class="flex items-baseline gap-4">
+            <time class="text-sm font-mono shrink-0 tabular-nums" style="color: var(--fg-muted)">
+              {fmt(post.data.pubDate)}
+            </time>
+            <span class="font-medium group-hover:underline underline-offset-4 decoration-1">
+              {post.data.title}
+            </span>
+          </div>
+          <p class="text-sm mt-1.5 line-clamp-2" style="color: var(--fg-muted)">
+            {post.data.description}
+          </p>
+        </a>
+      ))
+    }
+  </div>
+</Base>
