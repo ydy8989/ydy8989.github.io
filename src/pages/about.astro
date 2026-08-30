@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile, career, education, skills } from '../data/profile';
+---
+
+<Base title="About — ydy8989" description={`${profile.nameEn} · ${profile.role}`}>
+  <h1 class="text-3xl font-bold tracking-tight mb-2">About</h1>
+  <p class="mb-6" style="color: var(--fg-muted)">{profile.tagline}</p>
+
+  <div class="flex flex-wrap gap-2 mb-14">
+    <a href={profile.resumeUrl} class="btn btn-primary">Resume ↓</a>
+  </div>
+
+  <section class="mb-14">
+    <h2 class="text-sm font-semibold uppercase tracking-widest mb-6" style="color: var(--fg-muted)">
+      Career
+    </h2>
+    <div class="space-y-8">
+      {
+        career.map((job) => (
+          <div class="grid sm:grid-cols-[7rem_1fr] gap-2 sm:gap-6">
+            <p class="text-sm font-mono pt-0.5" style="color: var(--fg-muted)">
+              {job.from} — {job.to ?? '현재'}
+            </p>
+            <div>
+              <h3 class="font-semibold">
+                {job.role} · {job.org}
+                <span class="font-normal text-sm" style="color: var(--fg-muted)">
+                  {' '}{job.location}
+                </span>
+              </h3>
+              <ul class="mt-2 space-y-1 text-sm" style="color: var(--fg-muted)">
+                {job.bullets.map((b) =>
+                  typeof b === 'string' ? (
+                    <li class="flex gap-2">
+                      <span style="color: var(--accent)">·</span>
+                      <span>{b}</span>
+                    </li>
+                  ) : (
+                    <li>
+                      <div class="flex gap-2">
+                        <span style="color: var(--accent)">·</span>
+                        <span>{b.text}</span>
+                      </div>
+                      <ul class="mt-1 ml-5 space-y-1">
+                        {b.children.map((c) => (
+                          <li class="flex gap-2">
+                            <span style="color: var(--fg-muted)">–</span>
+                            <span>{c}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mb-14">
+    <h2 class="text-sm font-semibold uppercase tracking-widest mb-6" style="color: var(--fg-muted)">
+      Education
+    </h2>
+    <div class="space-y-6">
+      {
+        education.map((edu) => (
+          <div class="grid sm:grid-cols-[7rem_1fr] gap-2 sm:gap-6">
+            <p class="text-sm font-mono pt-0.5" style="color: var(--fg-muted)">
+              {edu.year}
+            </p>
+            <div>
+              <h3 class="font-semibold">
+                {edu.degree} · {edu.org}
+                <span class="font-normal text-sm" style="color: var(--fg-muted)">
+                  {' '}{edu.location}
+                </span>
+              </h3>
+              {edu.note && (
+                <p class="mt-1 text-sm" style="color: var(--fg-muted)">
+                  {edu.noteHref ? (
+                    <a href={edu.noteHref} class="hover:underline underline-offset-4" style="color: var(--accent)">
+                      {edu.note}
+                    </a>
+                  ) : (
+                    edu.note
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mb-14">
+    <h2 class="text-sm font-semibold uppercase tracking-widest mb-6" style="color: var(--fg-muted)">
+      Skills
+    </h2>
+    <div class="space-y-4">
+      {
+        Object.entries(skills).map(([group, items]) => (
+          <div class="grid sm:grid-cols-[7rem_1fr] gap-2 sm:gap-6">
+            <p class="text-sm" style="color: var(--fg-muted)">{group}</p>
+            <ul class="flex flex-wrap gap-1.5">
+              {items.map((item) => (
+                <li
+                  class="text-xs px-2 py-0.5 rounded font-mono border"
+                  style="border-color: var(--border)"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-sm font-semibold uppercase tracking-widest mb-6" style="color: var(--fg-muted)">
+      Contact
+    </h2>
+    <a
+      href={`mailto:${profile.email}`}
+      class="font-mono text-sm hover:underline underline-offset-4"
+      style="color: var(--accent)"
+    >
+      {profile.email}
+    </a>
+  </section>
+</Base>

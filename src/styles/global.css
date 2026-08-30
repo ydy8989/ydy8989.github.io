@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    AppleMyungjo, Batang, serif;
+}
+
+/* 뉴트럴 그레이(zinc) 베이스 + vivid 사이언 틸 accent */
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f4f4f5;
+  --fg: #18181b;
+  --fg-muted: #5b616b;
+  --border: #e4e4e7;
+
+  --accent: #0891b2; /* cyan-600 */
+  --accent-fg: #ffffff; /* accent 위에 얹는 글자색 */
+  --accent-soft: #ecfeff; /* accent의 아주 옅은 배경 */
+
+  --code-bg: #f4f4f5;
+  --code-fg: #0e7490;
+  --code-border: #e4e4e7;
+}
+
+.dark {
+  --bg: #0b0b0e;
+  --bg-subtle: #18181b;
+  --fg: #e7e7ea;
+  --fg-muted: #a1a1aa;
+  --border: #27272a;
+
+  --accent: #22d3ee; /* cyan-400 */
+  --accent-fg: #08141a; /* 밝은 accent 위에는 어두운 글자 */
+  --accent-soft: #0e2b31;
+
+  --code-bg: #18181b;
+  --code-fg: #67e8f9;
+  --code-border: #2a2a30;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* ── 통일 버튼 시스템 ─────────────────────────────
+   .btn 기본 + primary(채움) / secondary(테두리). 반경·패딩 고정. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    filter 0.15s ease,
+    color 0.15s ease;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--fg);
+}
+.btn-secondary:hover {
+  background: var(--bg-subtle);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}

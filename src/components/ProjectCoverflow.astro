@@ -1,0 +1,422 @@
+---
+import { projects } from '../data/projects';
+
+// 오래된 → 최신 순서 (data-index 기준). 카드/타임라인이 이 인덱스를 공유.
+const ordered = [...projects].reverse();
+const N = ordered.length;
+
+// 타임라인은 위=최신 → 아래=과거. 그래서 렌더는 최신부터.
+// 오른쪽 연도 축: 연이 바뀌는 지점에만 표시(중복 제거).
+let prevYear = '';
+const tlNodes = ordered
+  .map((p, i) => ({ p, i }))
+  .reverse()
+  .map(({ p, i }) => {
+    const year = p.period.slice(0, 4);
+    const showYear = year !== prevYear;
+    prevYear = year;
+    return { p, i, year, showYear };
+  });
+---
+
+<section class="cf-root" aria-label="프로젝트 타임라인">
+  <div class="cf-layout">
+    <!-- 왼쪽: 세로 커버플로우 -->
+    <div
+      class="cf-viewport"
+      id="cf-viewport"
+      tabindex="0"
+      role="group"
+      aria-roledescription="carousel"
+      aria-label="지나온 프로젝트, 위아래로 넘겨보세요"
+    >
+      <div class="cf-stage" id="cf-stage">
+        {
+          ordered.map((p, i) => (
+            <article class="cf-card" data-index={i} aria-hidden={i === N - 1 ? 'false' : 'true'}>
+              <div class="cf-period">{p.period}</div>
+              <h3 class="cf-title">{p.title}</h3>
+              <p class="cf-org">
+                {p.org}
+                {p.role && <span class="cf-role"> · {p.role}</span>}
+              </p>
+              <p class="cf-summary">{p.summary}</p>
+              <ul class="cf-tags">
+                {p.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+              {p.href && (
+                <a class="cf-link" href={p.href} target="_blank" rel="noreferrer">
+                  ↗ 코드 보기
+                </a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- 오른쪽: 세로 타임라인 (hover = 스크럽) -->
+    <div class="cf-timeline" id="cf-timeline" role="tablist" aria-label="프로젝트 선택 (위=최신)">
+      <div class="cf-rail"></div>
+      {
+        tlNodes.map(({ p, i, year, showYear }) => (
+          <button
+            class="cf-node"
+            data-index={i}
+            role="tab"
+            aria-label={`${p.period} ${p.title}`}
+            aria-selected={i === N - 1 ? 'true' : 'false'}
+          >
+            <span class="cf-node-title">{p.title}</span>
+            <span class="cf-node-dot" />
+            <span class="cf-node-year">{showYear ? year : ''}</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cf-root {
+    --card-w: clamp(240px, 100%, 340px);
+    --card-h: 290px;
+    --h: 660px;
+  }
+
+  .cf-layout {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  /* ── 왼쪽: 세로 커버플로우 ─────────────────────── */
+  .cf-viewport {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    height: var(--h);
+    perspective: 1200px;
+    overflow: hidden;
+    outline: none;
+  }
+  .cf-viewport:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent);
+    border-radius: 1rem;
+  }
+  .cf-stage {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+  .cf-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--card-w);
+    height: var(--card-h);
+    box-sizing: border-box;
+    padding: 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
+    transform-origin: center center;
+    transition:
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease,
+      filter 0.5s ease;
+    will-change: transform, opacity;
+    user-select: none;
+    cursor: pointer;
+  }
+  .cf-card.is-active {
+    background: var(--bg);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    box-shadow:
+      0 20px 45px -20px color-mix(in srgb, var(--accent) 45%, transparent),
+      0 10px 26px -18px rgba(0, 0, 0, 0.4);
+    cursor: default;
+  }
+
+  .cf-period {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .cf-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  .cf-org {
+    font-size: 0.83rem;
+    color: var(--fg-muted);
+    margin-top: 0.3rem;
+  }
+  .cf-summary {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--fg-muted);
+    margin-top: 0.85rem;
+    flex: 1;
+  }
+  .cf-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.7rem;
+  }
+  .cf-tags li {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    padding: 0.12rem 0.42rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+  }
+  .cf-link {
+    margin-top: 0.8rem;
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-decoration: none;
+    align-self: flex-start;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .cf-card.is-active .cf-link {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .cf-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── 오른쪽: 세로 타임라인 ─────────────────────── */
+  .cf-timeline {
+    position: relative;
+    flex-shrink: 0;
+    width: 244px;
+    height: var(--h);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+  .cf-rail {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    right: 51px; /* 점(dot) 중앙 */
+    width: 2px;
+    background: var(--border);
+  }
+  /* [프로젝트명] [점] [연도] 3단 */
+  .cf-node {
+    display: grid;
+    grid-template-columns: 1fr 12px 36px;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: opacity 0.18s ease;
+  }
+  .cf-node[aria-selected='true'] {
+    opacity: 1;
+  }
+  .cf-node-title {
+    text-align: right;
+    font-size: 0.74rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--fg);
+  }
+  .cf-node[aria-selected='true'] .cf-node-title {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .cf-node-dot {
+    justify-self: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--border);
+    box-shadow: 0 0 0 4px var(--bg);
+    transition:
+      background 0.18s ease,
+      transform 0.18s ease;
+  }
+  .cf-node[aria-selected='true'] .cf-node-dot {
+    background: var(--accent);
+    transform: scale(1.5);
+  }
+  .cf-node-year {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--fg-muted);
+  }
+
+  @media (max-width: 640px) {
+    .cf-root {
+      --card-h: 270px;
+    }
+    .cf-timeline {
+      width: 180px;
+    }
+    .cf-node-title {
+      font-size: 0.68rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cf-card {
+      transition: opacity 0.2s ease;
+    }
+  }
+</style>
+
+<script>
+  function initCoverflow() {
+    const viewport = document.getElementById('cf-viewport');
+    const stage = document.getElementById('cf-stage');
+    const timeline = document.getElementById('cf-timeline');
+    if (!viewport || !stage || !timeline) return;
+
+    const cards = Array.from(stage.querySelectorAll<HTMLElement>('.cf-card'));
+    const nodes = Array.from(timeline.querySelectorAll<HTMLElement>('.cf-node'));
+    const N = cards.length;
+    if (!N) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let active = N - 1; // 최신(맨 위)에서 시작
+
+    function render() {
+      cards.forEach((card, i) => {
+        const offset = i - active; // >0 = 최신(위), <0 = 과거(아래)
+        const abs = Math.abs(offset);
+        const clamped = Math.min(abs, 4);
+        const visible = abs <= 3;
+
+        const ty = -offset * 88; // 최신일수록 위로
+        const tz = reduce ? 0 : -clamped * 150; // 멀수록 뒤로
+        const rx = reduce ? 0 : offset * 16; // 세로 원통처럼 기울임
+        const scale = 1 - clamped * 0.08;
+        const opacity = visible ? Math.max(0.1, 1 - abs * 0.34) : 0;
+        const blur = reduce ? 0 : Math.min(abs, 3) * 1.1;
+
+        card.style.transform = `translate(-50%, -50%) translateY(${ty}px) translateZ(${tz}px) rotateX(${rx}deg) scale(${scale})`;
+        card.style.opacity = String(opacity);
+        card.style.filter = blur ? `blur(${blur}px)` : 'none';
+        card.style.zIndex = String(50 - clamped);
+        card.style.pointerEvents = visible ? 'auto' : 'none';
+        card.classList.toggle('is-active', i === active);
+        card.setAttribute('aria-hidden', i === active ? 'false' : 'true');
+      });
+
+      // 활성(=hover 중이면 커서에 가장 가까운) 노드에 초록 하이라이트가 따라온다.
+      nodes.forEach((node) =>
+        node.setAttribute(
+          'aria-selected',
+          Number(node.dataset.index) === active ? 'true' : 'false'
+        )
+      );
+    }
+
+    function go(to: number) {
+      active = Math.max(0, Math.min(N - 1, to));
+      render();
+    }
+
+    // 카드 클릭 → 포커스
+    cards.forEach((card, i) =>
+      card.addEventListener('click', () => {
+        if (i !== active) go(i);
+      })
+    );
+    // 노드 클릭 → 포커스
+    nodes.forEach((node) =>
+      node.addEventListener('click', () => go(Number(node.dataset.index)))
+    );
+
+    // 타임라인 hover = 스크럽 + 근처 노드 스포트라이트
+    timeline.addEventListener('mousemove', (e: MouseEvent) => {
+      const y = e.clientY;
+      let bestDist = Infinity;
+      let bestIdx = active;
+      nodes.forEach((node) => {
+        const r = node.getBoundingClientRect();
+        const cy = r.top + r.height / 2;
+        const d = Math.abs(cy - y);
+        // 근처일수록 진하게 (falloff 120px)
+        const t = Math.max(0, 1 - d / 120);
+        node.style.opacity = String(0.2 + t * 0.8);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = Number(node.dataset.index);
+        }
+      });
+      if (bestIdx !== active) go(bestIdx);
+    });
+    timeline.addEventListener('mouseleave', () => {
+      nodes.forEach((node) => (node.style.opacity = ''));
+      render();
+    });
+
+    // 키보드: ↑ 최신 / ↓ 과거
+    viewport.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        go(active + 1);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        go(active - 1);
+      }
+    });
+
+    // 세로 휠/스와이프
+    let wheelLock = false;
+    viewport.addEventListener(
+      'wheel',
+      (e: WheelEvent) => {
+        if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+        e.preventDefault();
+        if (wheelLock) return;
+        wheelLock = true;
+        go(active + (e.deltaY < 0 ? 1 : -1));
+        setTimeout(() => (wheelLock = false), 300);
+      },
+      { passive: false }
+    );
+
+    let startY = 0;
+    let dragging = false;
+    viewport.addEventListener('pointerdown', (e: PointerEvent) => {
+      dragging = true;
+      startY = e.clientY;
+    });
+    window.addEventListener('pointerup', (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      const dy = e.clientY - startY;
+      if (Math.abs(dy) > 45) go(active + (dy < 0 ? -1 : 1));
+    });
+
+    render();
+  }
+
+  initCoverflow();
+  document.addEventListener('astro:page-load', initCoverflow);
+</script>
