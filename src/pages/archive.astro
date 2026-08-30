@@ -22,7 +22,9 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
             <time class="text-sm font-mono shrink-0 tabular-nums" style="color: var(--fg-muted)">
               {fmt(post.data.pubDate)}
             </time>
-            <span class="font-medium group-hover:underline underline-offset-4 decoration-1">
+            <span
+              class="font-medium underline-offset-4 decoration-1 transition-colors group-hover:underline group-hover:text-[var(--accent)]"
+            >
               {post.data.title}
             </span>
           </div>

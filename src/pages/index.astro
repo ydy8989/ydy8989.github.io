@@ -16,20 +16,8 @@ import { profile } from '../data/profile';
 
   <ProjectCoverflow />
 
-  <div class="flex items-center justify-center gap-3 mt-12 text-sm">
-    <a
-      href="/about/"
-      class="px-4 py-2 rounded-md border hover:opacity-70 transition-opacity"
-      style="border-color: var(--border)"
-    >
-      About →
-    </a>
-    <a
-      href={profile.resumeUrl}
-      class="px-4 py-2 rounded-md font-mono hover:opacity-70 transition-opacity"
-      style="background: var(--accent); color: #fff"
-    >
-      Resume ↓
-    </a>
+  <div class="flex items-center justify-center gap-3 mt-12">
+    <a href="/about/" class="btn btn-secondary">About →</a>
+    <a href={profile.resumeUrl} class="btn btn-primary">Resume ↓</a>
   </div>
 </Base>

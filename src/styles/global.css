@@ -6,45 +6,41 @@
   --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
     "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   --font-mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  /* 제목용 세리프. 라틴 세리프를 먼저 두고 한글은 명조로 떨어뜨린다. */
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
     AppleMyungjo, Batang, serif;
 }
 
-/* 디지털 가든 — 차가운 회색 대신 따뜻한 종이와 초록 */
+/* 뉴트럴 그레이(zinc) 베이스 + vivid 사이언 틸 accent */
 :root {
-  --bg: #fdfbf6;
-  --bg-subtle: #f5f0e6;
-  --fg: #2b2721;
-  --fg-muted: #6f6759;
-  --border: #e7dfd0;
-  --accent: #4a7a52;
+  --bg: #ffffff;
+  --bg-subtle: #f4f4f5;
+  --fg: #18181b;
+  --fg-muted: #5b616b;
+  --border: #e4e4e7;
 
-  --code-bg: #f0e9db;
-  --code-fg: #a8452f;
-  --code-border: #ddd2be;
+  --accent: #0891b2; /* cyan-600 */
+  --accent-fg: #ffffff; /* accent 위에 얹는 글자색 */
+  --accent-soft: #ecfeff; /* accent의 아주 옅은 배경 */
 
-  /* 성장 단계 색 — 씨앗에서 여문 나무로 갈수록 진해진다 */
-  --stage-seedling: #a08a4a;
-  --stage-budding: #6a9450;
-  --stage-evergreen: #3f7048;
+  --code-bg: #f4f4f5;
+  --code-fg: #0e7490;
+  --code-border: #e4e4e7;
 }
 
 .dark {
-  --bg: #14130f;
-  --bg-subtle: #1d1b15;
-  --fg: #eae4d6;
-  --fg-muted: #9b9281;
-  --border: #302c22;
-  --accent: #8fbc7f;
+  --bg: #0b0b0e;
+  --bg-subtle: #18181b;
+  --fg: #e7e7ea;
+  --fg-muted: #a1a1aa;
+  --border: #27272a;
 
-  --code-bg: #2a261d;
-  --code-fg: #e39b7c;
-  --code-border: #3b352a;
+  --accent: #22d3ee; /* cyan-400 */
+  --accent-fg: #08141a; /* 밝은 accent 위에는 어두운 글자 */
+  --accent-soft: #0e2b31;
 
-  --stage-seedling: #cbb46b;
-  --stage-budding: #9dc47c;
-  --stage-evergreen: #7fb082;
+  --code-bg: #18181b;
+  --code-fg: #67e8f9;
+  --code-border: #2a2a30;
 }
 
 html {
@@ -60,5 +56,42 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-fg);
+}
+
+/* ── 통일 버튼 시스템 ─────────────────────────────
+   .btn 기본 + primary(채움) / secondary(테두리). 반경·패딩 고정. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    filter 0.15s ease,
+    color 0.15s ease;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--fg);
+}
+.btn-secondary:hover {
+  background: var(--bg-subtle);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
 }

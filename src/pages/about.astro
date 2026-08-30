@@ -7,21 +7,8 @@ import { profile, career, education, skills } from '../data/profile';
   <h1 class="text-3xl font-bold tracking-tight mb-2">About</h1>
   <p class="mb-6" style="color: var(--fg-muted)">{profile.tagline}</p>
 
-  <div class="flex flex-wrap gap-2 mb-14 text-sm">
-    <a
-      href={profile.resumeUrl}
-      class="px-3 py-1.5 rounded-md border font-mono hover:opacity-70 transition-opacity"
-      style="border-color: var(--border)"
-    >
-      Resume ↓
-    </a>
-    <a
-      href={profile.cvUrl}
-      class="px-3 py-1.5 rounded-md border font-mono hover:opacity-70 transition-opacity"
-      style="border-color: var(--border)"
-    >
-      CV ↓
-    </a>
+  <div class="flex flex-wrap gap-2 mb-14">
+    <a href={profile.resumeUrl} class="btn btn-primary">Resume ↓</a>
   </div>
 
   <section class="mb-14">

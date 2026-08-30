@@ -6,7 +6,6 @@ export const profile = {
   tagline: 'NLP와 LLM으로 쓸모 있는 제품을 만듭니다.',
   email: 'ydy89899@gmail.com',
   resumeUrl: '/port_cv/resume/Doyeon_Yoon_resume.pdf',
-  cvUrl: '/port_cv/cv/Doyeon_Yoon_CV.pdf',
   social: [
     { label: 'GitHub', href: 'https://github.com/ydy8989' },
   ],
